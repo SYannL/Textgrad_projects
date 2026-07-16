@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adversarial-gv-agent"
+version = "0.1.0"
+description = "GAN-like Generator/Verifier prompt optimization with TextGrad"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+adversarial-gv = "adversarial_gv.cli:main"
+

@@ -1,0 +1,1327 @@
+correct_id,collection_split,split,index,question,ground_truth,parsed_prediction,generator_prompt,generator_output
+1,train,train,0,Question: The result from the 40-item Statistics exam Marion and Ella took already came out. Ella got 4 incorrect answers while Marion got 6 more than half the score of Ella. What is Marion's score?,24,24,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to translate the information given into quantities and equations.
+
+1. **Identify the total number of items on the exam**: 
+   - The exam has 40 items.
+
+2. **Determine Ella's score**:
+   - Ella got 4 incorrect answers. 
+   - Therefore, the number of correct answers Ella got is:
+     \[
+     \text{Correct answers by Ella} = \text{Total items} - \text{Incorrect answers} = 40 - 4 = 36
+     \]
+   - Thus, Ella's score is 36.
+
+3. **Determine Marion's score**:
+   - The problem states that Marion got 6 more than half the score of Ella.
+   - First, we need to calculate half of Ella's score:
+     \[
+     \text{Half of Ella's score} = \frac{36}{2} = 18
+     \]
+   - Now, we add 6 to this value to find Marion's score:
+     \[
+     \text{Marion's score} = 18 + 6 = 24
+     \]
+
+4. **Final check**:
+   - Ella's score is 36, and half of that is 18. Adding 6 gives us 24 for Marion's score, which is consistent with the problem statement.
+
+Thus, Marion's score is:
+
+Answer: 24"
+2,train,train,1,"Question: Stephen made 10 round trips up and down a 40,000 foot tall mountain. If he reached 3/4 of the mountain's height on each of his trips, calculate the total distance he covered.",600000,600000,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine the total distance Stephen covered during his 10 round trips up and down the mountain.
+
+1. **Determine the height reached on each trip:**
+   The height of the mountain is 40,000 feet. Stephen reached \( \frac{3}{4} \) of the mountain's height on each trip.
+   \[
+   \text{Height reached} = \frac{3}{4} \times 40,000 \text{ feet}
+   \]
+   \[
+   \text{Height reached} = 30,000 \text{ feet}
+   \]
+
+2. **Calculate the distance for one round trip:**
+   A round trip consists of going up to the height reached and then coming back down. Therefore, the distance for one round trip is:
+   \[
+   \text{Distance for one round trip} = \text{Height reached} + \text{Height reached} = 30,000 \text{ feet} + 30,000 \text{ feet}
+   \]
+   \[
+   \text{Distance for one round trip} = 60,000 \text{ feet}
+   \]
+
+3. **Calculate the total distance for 10 round trips:**
+   Since Stephen made 10 round trips, the total distance covered is:
+   \[
+   \text{Total distance} = 10 \times \text{Distance for one round trip}
+   \]
+   \[
+   \text{Total distance} = 10 \times 60,000 \text{ feet}
+   \]
+   \[
+   \text{Total distance} = 600,000 \text{ feet}
+   \]
+
+4. **Check the constraints:**
+   - The height reached (30,000 feet) is less than the total height of the mountain (40,000 feet), which is valid.
+   - The number of trips (10) is a positive integer, which is also valid.
+
+Thus, all calculations are consistent with the problem's constraints.
+
+Final answer:
+Answer: 600000"
+3,train,train,2,"Question: Bridget counted 14 shooting stars in the night sky.  Reginald counted two fewer shooting stars than did Bridget, but Sam counted four more shooting stars than did Reginald.  How many more shooting stars did Sam count in the night sky than was the average number of shooting stars observed for the three of them?",2,2,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's start by defining the quantities based on the information given in the problem.
+
+1. **Bridget's count of shooting stars**: 
+   \[
+   B = 14
+   \]
+
+2. **Reginald's count of shooting stars**: 
+   Reginald counted two fewer than Bridget:
+   \[
+   R = B - 2 = 14 - 2 = 12
+   \]
+
+3. **Sam's count of shooting stars**: 
+   Sam counted four more than Reginald:
+   \[
+   S = R + 4 = 12 + 4 = 16
+   \]
+
+Now we have the counts for each person:
+- Bridget: 14
+- Reginald: 12
+- Sam: 16
+
+Next, we need to calculate the average number of shooting stars counted by the three of them. The average is calculated by summing their counts and dividing by the number of people (which is 3).
+
+4. **Sum of shooting stars**:
+   \[
+   \text{Total} = B + R + S = 14 + 12 + 16 = 42
+   \]
+
+5. **Average number of shooting stars**:
+   \[
+   \text{Average} = \frac{\text{Total}}{3} = \frac{42}{3} = 14
+   \]
+
+Now, we need to find out how many more shooting stars Sam counted than the average.
+
+6. **Difference between Sam's count and the average**:
+   \[
+   \text{Difference} = S - \text{Average} = 16 - 14 = 2
+   \]
+
+Thus, Sam counted 2 more shooting stars than the average number of shooting stars observed by the three of them.
+
+Finally, we present the answer:
+
+Answer: 2"
+4,train,train,3,Question: Sarah buys 20 pencils on Monday. Then she buys 18 more pencils on Tuesday. On Wednesday she buys triple the number of pencils she did on Tuesday. How many pencils does she have?,92,92,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's break down the problem step by step.
+
+1. **Quantities of pencils bought:**
+   - On Monday, Sarah buys 20 pencils.
+   - On Tuesday, she buys 18 pencils.
+   - On Wednesday, she buys triple the number of pencils she bought on Tuesday.
+
+2. **Calculating the number of pencils bought on Wednesday:**
+   - The number of pencils bought on Tuesday is 18.
+   - Therefore, the number of pencils bought on Wednesday is:
+     \[
+     3 \times 18 = 54 \text{ pencils}
+     \]
+
+3. **Total number of pencils:**
+   - Now, we need to find the total number of pencils Sarah has after these purchases. We add the pencils bought on each day:
+   \[
+   \text{Total pencils} = \text{Pencils on Monday} + \text{Pencils on Tuesday} + \text{Pencils on Wednesday}
+   \]
+   \[
+   \text{Total pencils} = 20 + 18 + 54
+   \]
+
+4. **Performing the addition:**
+   - First, add the pencils from Monday and Tuesday:
+   \[
+   20 + 18 = 38
+   \]
+   - Now, add the pencils from Wednesday:
+   \[
+   38 + 54 = 92
+   \]
+
+5. **Final result:**
+   - Sarah has a total of 92 pencils.
+
+Thus, the final answer is:
+Answer: 92"
+5,train,train,4,"Question: Rookie police officers have to buy duty shoes at the full price of $85, but officers who have served at least a year get a 20% discount. Officers who have served at least three years get an additional 25% off the discounted price. How much does an officer who has served at least three years have to pay for shoes?",51,51,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To find out how much an officer who has served at least three years has to pay for duty shoes, we will follow these steps:
+
+1. **Identify the full price of the shoes**: The full price is given as $85.
+
+2. **Calculate the discount for officers who have served at least one year**: 
+   - The discount is 20% of the full price.
+   - First, we calculate 20% of $85:
+     \[
+     20\% \text{ of } 85 = 0.20 \times 85 = 17
+     \]
+   - Now, we subtract this discount from the full price to find the price after the first discount:
+     \[
+     \text{Price after 20% discount} = 85 - 17 = 68
+     \]
+
+3. **Calculate the additional discount for officers who have served at least three years**: 
+   - The additional discount is 25% of the already discounted price ($68).
+   - First, we calculate 25% of $68:
+     \[
+     25\% \text{ of } 68 = 0.25 \times 68 = 17
+     \]
+   - Now, we subtract this additional discount from the price after the first discount:
+     \[
+     \text{Final price after additional 25% discount} = 68 - 17 = 51
+     \]
+
+4. **Final Calculation**: The final price that an officer who has served at least three years has to pay for the shoes is $51.
+
+Thus, the final answer is:
+Answer: $51"
+6,train,train,5,Question: The average score on last week's Spanish test was 90.  Marco scored 10% less than the average test score and Margaret received 5 more points than Marco.  What score did Margaret receive on her test?,86,86,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will first translate the information given into quantities and equations.
+
+1. **Identify the average score**: The average score on the Spanish test is given as 90.
+
+2. **Calculate Marco's score**: Marco scored 10% less than the average score. 
+   - First, we calculate 10% of the average score:
+     \[
+     10\% \text{ of } 90 = 0.10 \times 90 = 9
+     \]
+   - Now, we subtract this value from the average score to find Marco's score:
+     \[
+     \text{Marco's score} = 90 - 9 = 81
+     \]
+
+3. **Calculate Margaret's score**: Margaret received 5 more points than Marco.
+   - We add 5 points to Marco's score to find Margaret's score:
+     \[
+     \text{Margaret's score} = 81 + 5 = 86
+     \]
+
+4. **Final result**: We have calculated that Margaret received a score of 86 on her test.
+
+Now, we will check the calculations against the constraints in the question:
+- The average score is 90, and Marco's score of 81 is indeed 10% less than 90.
+- Margaret's score of 86 is 5 points more than Marco's score of 81.
+
+Both conditions are satisfied.
+
+Thus, the final answer is:
+Answer: 86"
+7,train,train,6,"Question: A third of the contestants at a singing competition are female, and the rest are male. If there are 18 contestants in total, how many of them are male?",12,12,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we first need to determine how many contestants are female and how many are male based on the information provided.
+
+1. **Total number of contestants**: 
+   \[
+   \text{Total contestants} = 18
+   \]
+
+2. **Fraction of contestants that are female**: 
+   \[
+   \text{Fraction of females} = \frac{1}{3}
+   \]
+
+3. **Calculating the number of female contestants**:
+   To find the number of female contestants, we multiply the total number of contestants by the fraction that are female:
+   \[
+   \text{Number of female contestants} = \frac{1}{3} \times 18
+   \]
+   Performing the multiplication:
+   \[
+   \text{Number of female contestants} = 6
+   \]
+
+4. **Calculating the number of male contestants**:
+   Since the rest of the contestants are male, we can find the number of male contestants by subtracting the number of female contestants from the total number of contestants:
+   \[
+   \text{Number of male contestants} = \text{Total contestants} - \text{Number of female contestants}
+   \]
+   Substituting the known values:
+   \[
+   \text{Number of male contestants} = 18 - 6
+   \]
+   Performing the subtraction:
+   \[
+   \text{Number of male contestants} = 12
+   \]
+
+5. **Checking the result against constraints**:
+   - Total contestants = 18
+   - Female contestants = 6 (which is a third of 18)
+   - Male contestants = 12 (which is the remainder)
+
+All calculations are consistent with the information given in the problem.
+
+Thus, the final answer is:
+Answer: 12"
+8,train,train,7,"Question: Nancy bought a pie sliced it into 8 pieces. She gave 1/2 to Joe and Darcy, and she gave 1/4 to Carl. How many slices were left?",2,2,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's start by determining the total number of slices Nancy had and how many she gave away.
+
+1. **Total slices of pie**: Nancy sliced the pie into 8 pieces.
+   \[
+   \text{Total slices} = 8
+   \]
+
+2. **Slices given to Joe and Darcy**: Nancy gave 1/2 of the pie to Joe and Darcy. To find out how many slices that is, we calculate:
+   \[
+   \text{Slices given to Joe and Darcy} = \frac{1}{2} \times 8 = 4 \text{ slices}
+   \]
+
+3. **Slices given to Carl**: Nancy gave 1/4 of the pie to Carl. To find out how many slices that is, we calculate:
+   \[
+   \text{Slices given to Carl} = \frac{1}{4} \times 8 = 2 \text{ slices}
+   \]
+
+4. **Total slices given away**: Now, we add the slices given to Joe and Darcy and the slices given to Carl:
+   \[
+   \text{Total slices given away} = 4 + 2 = 6 \text{ slices}
+   \]
+
+5. **Slices left**: To find out how many slices are left, we subtract the total slices given away from the total slices:
+   \[
+   \text{Slices left} = 8 - 6 = 2 \text{ slices}
+   \]
+
+Now, let's check the calculations against the constraints in the question:
+- Nancy started with 8 slices.
+- She gave away 6 slices (4 to Joe and Darcy, 2 to Carl).
+- The remaining slices are indeed 2.
+
+Thus, the final answer is:
+Answer: 2"
+9,train,train,8,Question: Megan pays $16 for a shirt that costs $22 before sales. What is the amount of the discount?,6,6,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To find the amount of the discount Megan received on the shirt, we need to determine the difference between the original price of the shirt and the price Megan paid.
+
+1. **Identify the original price and the price paid:**
+   - Original price of the shirt = $22
+   - Price paid by Megan = $16
+
+2. **Calculate the discount:**
+   \[
+   \text{Discount} = \text{Original Price} - \text{Price Paid}
+   \]
+   Substituting the values:
+   \[
+   \text{Discount} = 22 - 16
+   \]
+
+3. **Perform the subtraction:**
+   \[
+   \text{Discount} = 6
+   \]
+
+4. **Check the result against the constraints:**
+   - The original price ($22) is greater than the price paid ($16), which confirms that a discount was applied.
+   - The calculated discount of $6 is a positive value, which is consistent with the context of the problem.
+
+Thus, the amount of the discount is:
+
+Answer: $6"
+10,train,train,10,"Question: Betty and Dora started making some cupcakes at the same time. Betty makes 10 cupcakes every hour and Dora makes 8 every hour. If Betty took a two-hour break, what is the difference between the number of cupcakes they made after 5 hours?",10,10,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to calculate the number of cupcakes made by both Betty and Dora after 5 hours, taking into account Betty's 2-hour break.
+
+1. **Calculate the time Betty actually worked:**
+   - Total time = 5 hours
+   - Break time = 2 hours
+   - Time worked by Betty = Total time - Break time = 5 hours - 2 hours = 3 hours
+
+2. **Calculate the number of cupcakes made by Betty:**
+   - Rate of Betty = 10 cupcakes/hour
+   - Time worked by Betty = 3 hours
+   - Cupcakes made by Betty = Rate × Time worked = 10 cupcakes/hour × 3 hours = 30 cupcakes
+
+3. **Calculate the number of cupcakes made by Dora:**
+   - Rate of Dora = 8 cupcakes/hour
+   - Time worked by Dora = 5 hours (since she did not take a break)
+   - Cupcakes made by Dora = Rate × Time worked = 8 cupcakes/hour × 5 hours = 40 cupcakes
+
+4. **Calculate the difference in the number of cupcakes made:**
+   - Difference = Cupcakes made by Dora - Cupcakes made by Betty = 40 cupcakes - 30 cupcakes = 10 cupcakes
+
+Now, we have all the calculations done and the difference in the number of cupcakes made by Dora and Betty.
+
+Answer: 10"
+11,train,train,12,"Question: A tank contains 6000 liters of water, 2000 liters evaporated, and then 3500 liters were drained by Bob. How many liters are in the tank if it now rains for 30 minutes and every 10 minutes 350 liters of rain are added to the tank?",1550,1550,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will break it down into steps and perform the necessary calculations.
+
+1. **Initial amount of water in the tank**: 
+   The tank initially contains 6000 liters of water.
+
+2. **Water evaporated**: 
+   2000 liters of water evaporated from the tank. 
+   \[
+   \text{Water after evaporation} = 6000 \, \text{liters} - 2000 \, \text{liters} = 4000 \, \text{liters}
+   \]
+
+3. **Water drained by Bob**: 
+   Bob drained 3500 liters from the tank. 
+   \[
+   \text{Water after draining} = 4000 \, \text{liters} - 3500 \, \text{liters} = 500 \, \text{liters}
+   \]
+
+4. **Rainfall**: 
+   It rains for 30 minutes, and every 10 minutes, 350 liters of rain are added to the tank. 
+   - First, we need to determine how many 10-minute intervals are in 30 minutes:
+   \[
+   \text{Number of intervals} = \frac{30 \, \text{minutes}}{10 \, \text{minutes}} = 3
+   \]
+
+5. **Total rain added**: 
+   For each interval, 350 liters are added, so the total amount of rain added is:
+   \[
+   \text{Total rain added} = 3 \times 350 \, \text{liters} = 1050 \, \text{liters}
+   \]
+
+6. **Final amount of water in the tank**: 
+   Now we add the rainwater to the amount of water left in the tank after evaporation and draining:
+   \[
+   \text{Final amount of water} = 500 \, \text{liters} + 1050 \, \text{liters} = 1550 \, \text{liters}
+   \]
+
+Now, we have calculated the final amount of water in the tank after all the events described in the problem.
+
+Answer: 1550"
+12,train,train,13,"Question: John takes 3 days off of streaming per week.  On the days he does stream, he streams for 4 hours at a time and makes $10 an hour.  How much does he make a week?",160,160,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine how many days John streams in a week and how much he earns on those days.
+
+1. **Determine the number of days John streams:**
+   - There are 7 days in a week.
+   - John takes 3 days off from streaming.
+   - Therefore, the number of days he streams in a week is:
+     \[
+     7 \text{ days} - 3 \text{ days off} = 4 \text{ days}
+     \]
+
+2. **Calculate the total hours John streams in a week:**
+   - John streams for 4 hours each day.
+   - Since he streams for 4 days, the total hours he streams in a week is:
+     \[
+     4 \text{ days} \times 4 \text{ hours/day} = 16 \text{ hours}
+     \]
+
+3. **Calculate John's earnings for the week:**
+   - John makes $10 for each hour he streams.
+   - Therefore, his total earnings for the week is:
+     \[
+     16 \text{ hours} \times 10 \text{ dollars/hour} = 160 \text{ dollars}
+     \]
+
+4. **Final check:**
+   - John streams 4 days a week, for 4 hours each day, which totals 16 hours.
+   - At a rate of $10 per hour, he earns $160 in total.
+
+Thus, the final answer is:
+
+Answer: $160"
+13,train,train,14,"Question: Billy is breeding mice for an experiment. He starts with 8 mice, who each have 6 pups. When the pups grow up, all the mice have another 6 pups. Then each adult mouse eats 2 of their pups due to the stress of overcrowding. How many mice are left?",280,280,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's break down the problem step by step.
+
+1. **Initial number of mice**: Billy starts with 8 mice.
+
+   \[
+   \text{Initial mice} = 8
+   \]
+
+2. **First generation of pups**: Each of the 8 mice has 6 pups.
+
+   \[
+   \text{Pups from first generation} = 8 \text{ mice} \times 6 \text{ pups/mouse} = 48 \text{ pups}
+   \]
+
+3. **Total number of mice after first generation**: After the first generation of pups, we add the pups to the initial mice.
+
+   \[
+   \text{Total mice after first generation} = 8 \text{ initial mice} + 48 \text{ pups} = 56 \text{ mice}
+   \]
+
+4. **Second generation of pups**: When the pups grow up, all 56 mice (the original 8 and the 48 pups) have another 6 pups each.
+
+   \[
+   \text{Pups from second generation} = 56 \text{ mice} \times 6 \text{ pups/mouse} = 336 \text{ pups}
+   \]
+
+5. **Total number of mice after second generation**: We add the second generation of pups to the total number of mice after the first generation.
+
+   \[
+   \text{Total mice after second generation} = 56 \text{ mice} + 336 \text{ pups} = 392 \text{ mice}
+   \]
+
+6. **Pups eaten due to overcrowding**: Each adult mouse eats 2 of their pups. Since there are 56 adult mice (the original 8 plus the 48 that grew up), we calculate the total number of pups eaten.
+
+   \[
+   \text{Pups eaten} = 56 \text{ adult mice} \times 2 \text{ pups/mouse} = 112 \text{ pups eaten}
+   \]
+
+7. **Final count of mice**: We subtract the number of pups eaten from the total number of mice after the second generation.
+
+   \[
+   \text{Final number of mice} = 392 \text{ mice} - 112 \text{ pups eaten} = 280 \text{ mice}
+   \]
+
+Thus, the total number of mice left after all the breeding and eating is:
+
+\[
+\text{Answer: } 280
+\]"
+14,train,train,15,Question: John needs to replace his shoes so he decides to buy a $150 pair of Nikes and a $120 pair of work boots.  Tax is 10%.  How much did he pay for everything?,297,297,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To find out how much John paid for everything, we need to calculate the total cost of the shoes and the work boots, then apply the tax.
+
+1. **Calculate the total cost before tax:**
+   - Cost of Nikes = $150
+   - Cost of work boots = $120
+
+   Total cost before tax = Cost of Nikes + Cost of work boots
+   \[
+   \text{Total cost before tax} = 150 + 120 = 270 \text{ dollars}
+   \]
+
+2. **Calculate the tax:**
+   - Tax rate = 10% = 0.10
+
+   Tax amount = Total cost before tax × Tax rate
+   \[
+   \text{Tax amount} = 270 \times 0.10 = 27 \text{ dollars}
+   \]
+
+3. **Calculate the total cost after tax:**
+   Total cost after tax = Total cost before tax + Tax amount
+   \[
+   \text{Total cost after tax} = 270 + 27 = 297 \text{ dollars}
+   \]
+
+Thus, the total amount John paid for everything is $297.
+
+Answer: $297"
+15,train,train,16,"Question: Daryl is loading crates at a warehouse and wants to make sure that they are not overloaded. Each crate can weigh up to 20kg and he has 15 crates he can fill. He has 4 bags of nails to load, each of which weighs 5kg; he has 12 bags of hammers, each of which weighs 5 kg; he also has 10 bags of wooden planks, each of which weighs 30kg and can be sub-divided. He realizes that he has too much to load and will have to leave some items out of the crates to meet the weight limit. In kg, how much is Daryl going to have to leave out of the crates?",80,80,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine the total weight of the items Daryl wants to load and then compare that to the maximum weight capacity of the crates.
+
+1. **Calculate the maximum weight capacity of the crates:**
+   - Each crate can hold up to 20 kg.
+   - Daryl has 15 crates.
+   \[
+   \text{Maximum weight capacity} = 20 \, \text{kg/crate} \times 15 \, \text{crates} = 300 \, \text{kg}
+   \]
+
+2. **Calculate the total weight of the items Daryl wants to load:**
+   - **Bags of nails:**
+     - Number of bags = 4
+     - Weight per bag = 5 kg
+     \[
+     \text{Total weight of nails} = 4 \, \text{bags} \times 5 \, \text{kg/bag} = 20 \, \text{kg}
+     \]
+
+   - **Bags of hammers:**
+     - Number of bags = 12
+     - Weight per bag = 5 kg
+     \[
+     \text{Total weight of hammers} = 12 \, \text{bags} \times 5 \, \text{kg/bag} = 60 \, \text{kg}
+     \]
+
+   - **Bags of wooden planks:**
+     - Number of bags = 10
+     - Weight per bag = 30 kg
+     \[
+     \text{Total weight of wooden planks} = 10 \, \text{bags} \times 30 \, \text{kg/bag} = 300 \, \text{kg}
+     \]
+
+3. **Calculate the total weight of all items:**
+   \[
+   \text{Total weight} = \text{Total weight of nails} + \text{Total weight of hammers} + \text{Total weight of wooden planks}
+   \]
+   \[
+   \text{Total weight} = 20 \, \text{kg} + 60 \, \text{kg} + 300 \, \text{kg} = 380 \, \text{kg}
+   \]
+
+4. **Determine how much weight Daryl needs to leave out:**
+   - The total weight of the items is 380 kg, and the maximum weight capacity of the crates is 300 kg.
+   \[
+   \text{Weight to leave out} = \text{Total weight} - \text{Maximum weight capacity}
+   \]
+   \[
+   \text{Weight to leave out} = 380 \, \text{kg} - 300 \, \text{kg} = 80 \, \text{kg}
+   \]
+
+5. **Final result:**
+   Daryl will need to leave out 80 kg of items to meet the weight limit of the crates.
+
+Answer: 80"
+16,train,train,17,"Question: Tom's rabbit can run at 25 miles per hour.  His cat can run 20 miles per hour.  The cat gets a 15-minute head start.  In hours, how long will it take for the rabbit to catch up?",1,1,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine how long it will take for Tom's rabbit to catch up to his cat, given their respective speeds and the cat's head start.
+
+1. **Define the variables:**
+   - Speed of the rabbit: \( v_r = 25 \) miles per hour
+   - Speed of the cat: \( v_c = 20 \) miles per hour
+   - Head start time for the cat: \( t_h = 15 \) minutes
+
+2. **Convert the head start time from minutes to hours:**
+   \[
+   t_h = \frac{15 \text{ minutes}}{60 \text{ minutes/hour}} = 0.25 \text{ hours}
+   \]
+
+3. **Calculate the distance the cat travels during the head start:**
+   The distance \( d \) that the cat covers during the head start can be calculated using the formula:
+   \[
+   d = v_c \times t_h
+   \]
+   Substituting the values:
+   \[
+   d = 20 \text{ miles/hour} \times 0.25 \text{ hours} = 5 \text{ miles}
+   \]
+
+4. **Set up the equation for when the rabbit catches up:**
+   Let \( t \) be the time in hours it takes for the rabbit to catch up after the head start. During this time, the rabbit will cover a distance of:
+   \[
+   \text{Distance covered by rabbit} = v_r \times t = 25t \text{ miles}
+   \]
+   The cat will continue to run during this time, covering an additional distance of:
+   \[
+   \text{Distance covered by cat} = v_c \times (t + t_h) = 20(t + 0.25) \text{ miles}
+   \]
+
+5. **Set the distances equal to each other:**
+   The rabbit catches up to the cat when the distance covered by both is equal:
+   \[
+   25t = 20(t + 0.25)
+   \]
+
+6. **Expand and simplify the equation:**
+   \[
+   25t = 20t + 5
+   \]
+   Subtract \( 20t \) from both sides:
+   \[
+   5t = 5
+   \]
+   Divide both sides by 5:
+   \[
+   t = 1 \text{ hour}
+   \]
+
+7. **Conclusion:**
+   It will take the rabbit 1 hour to catch up to the cat after the cat's head start.
+
+Thus, the final answer is:
+Answer: $1"
+17,train,train,18,"Question: In 2004, there were some kids at a cookout. In 2005, half the number of kids came to the cookout as compared to 2004. In 2006, 2/3 as many kids came to the cookout as in 2005. If there were 20 kids at the cookout in 2006, how many kids came to the cookout in 2004?",60,60,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let \( x \) be the number of kids at the cookout in 2004.
+
+According to the problem:
+
+1. In 2005, half the number of kids came compared to 2004. Therefore, the number of kids in 2005 is:
+   \[
+   \text{Kids in 2005} = \frac{x}{2}
+   \]
+
+2. In 2006, \( \frac{2}{3} \) of the number of kids from 2005 came to the cookout. Thus, the number of kids in 2006 is:
+   \[
+   \text{Kids in 2006} = \frac{2}{3} \left(\frac{x}{2}\right)
+   \]
+
+3. We know from the problem statement that there were 20 kids at the cookout in 2006. Therefore, we can set up the equation:
+   \[
+   \frac{2}{3} \left(\frac{x}{2}\right) = 20
+   \]
+
+Now, let's solve for \( x \).
+
+First, simplify the left side of the equation:
+\[
+\frac{2}{3} \cdot \frac{x}{2} = \frac{2x}{6} = \frac{x}{3}
+\]
+
+Now, we have:
+\[
+\frac{x}{3} = 20
+\]
+
+To isolate \( x \), multiply both sides by 3:
+\[
+x = 20 \cdot 3
+\]
+\[
+x = 60
+\]
+
+Thus, the number of kids at the cookout in 2004 was 60.
+
+Now, let's verify the calculations:
+
+- In 2004, there were \( x = 60 \) kids.
+- In 2005, the number of kids was \( \frac{60}{2} = 30 \).
+- In 2006, the number of kids was \( \frac{2}{3} \cdot 30 = 20 \).
+
+Since all calculations are consistent with the problem statement, we conclude that the answer is correct.
+
+Answer: 60"
+18,train,train,19,Question: James splits 4 packs of stickers that have 30 stickers each.  Each sticker cost $.10.  If his friend pays for half how much did James pay?,6,6,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will break it down into steps and calculate the total cost of the stickers, then determine how much James paid after his friend contributed.
+
+1. **Calculate the total number of stickers:**
+   - James has 4 packs of stickers.
+   - Each pack contains 30 stickers.
+   - Total stickers = Number of packs × Stickers per pack
+   \[
+   \text{Total stickers} = 4 \text{ packs} \times 30 \text{ stickers/pack} = 120 \text{ stickers}
+   \]
+
+2. **Calculate the total cost of the stickers:**
+   - Each sticker costs $0.10.
+   - Total cost = Total stickers × Cost per sticker
+   \[
+   \text{Total cost} = 120 \text{ stickers} \times 0.10 \text{ dollars/sticker} = 12 \text{ dollars}
+   \]
+
+3. **Determine how much James's friend pays:**
+   - His friend pays for half of the total cost.
+   - Amount paid by friend = Total cost / 2
+   \[
+   \text{Amount paid by friend} = \frac{12 \text{ dollars}}{2} = 6 \text{ dollars}
+   \]
+
+4. **Calculate how much James pays:**
+   - Since his friend pays half, James pays the other half.
+   - Amount paid by James = Total cost - Amount paid by friend
+   \[
+   \text{Amount paid by James} = 12 \text{ dollars} - 6 \text{ dollars} = 6 \text{ dollars}
+   \]
+
+5. **Final check:**
+   - Total cost of stickers is $12.
+   - James pays $6, and his friend pays $6, which adds up to the total cost of $12.
+
+Thus, the amount James paid is:
+
+Answer: $6"
+19,train,train,20,"Question: It’s spring! The gardener at Parc Municipal orders flowers. He takes 250 tulips, 375 carnations and 320 roses. Each flower is sold for 2€. Calculate the total expenses.",1890,1890,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To find the total expenses for the flowers ordered by the gardener, we need to calculate the cost of each type of flower and then sum these costs.
+
+1. **Identify the quantities of each type of flower:**
+   - Tulips: 250
+   - Carnations: 375
+   - Roses: 320
+
+2. **Identify the cost per flower:**
+   - Each flower costs 2€.
+
+3. **Calculate the total cost for each type of flower:**
+   - Total cost for tulips:
+     \[
+     \text{Cost of tulips} = \text{Number of tulips} \times \text{Cost per flower} = 250 \times 2€ = 500€
+     \]
+   - Total cost for carnations:
+     \[
+     \text{Cost of carnations} = \text{Number of carnations} \times \text{Cost per flower} = 375 \times 2€ = 750€
+     \]
+   - Total cost for roses:
+     \[
+     \text{Cost of roses} = \text{Number of roses} \times \text{Cost per flower} = 320 \times 2€ = 640€
+     \]
+
+4. **Sum the total costs to find the total expenses:**
+   \[
+   \text{Total expenses} = \text{Cost of tulips} + \text{Cost of carnations} + \text{Cost of roses}
+   \]
+   \[
+   \text{Total expenses} = 500€ + 750€ + 640€ = 1890€
+   \]
+
+5. **Check the calculations:**
+   - Cost of tulips: 250 tulips × 2€ = 500€
+   - Cost of carnations: 375 carnations × 2€ = 750€
+   - Cost of roses: 320 roses × 2€ = 640€
+   - Total: 500€ + 750€ + 640€ = 1890€
+
+All calculations are correct and consistent with the problem statement.
+
+Final answer:
+Answer: 1890"
+20,train,train,21,"Question: Mary does her grocery shopping on Saturday. She does her shopping only at a specific store where she is allowed a credit of $100, which must be paid in full before her next shopping trip. That week she spent the full credit limit and paid $15 of it on Tuesday and $23 of it on Thursday. How much credit will Mary need to pay before her next shopping trip?",62,62,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine how much credit Mary has left to pay before her next shopping trip.
+
+1. **Initial Credit Limit**: Mary has a credit limit of $100.
+
+2. **Total Amount Spent**: Mary spent the full credit limit of $100.
+
+3. **Payments Made**:
+   - Payment on Tuesday: $15
+   - Payment on Thursday: $23
+
+4. **Total Payments Made**: 
+   \[
+   \text{Total Payments} = 15 + 23 = 38
+   \]
+
+5. **Remaining Balance**: To find out how much credit Mary still needs to pay, we subtract the total payments made from the total amount spent:
+   \[
+   \text{Remaining Balance} = \text{Total Amount Spent} - \text{Total Payments}
+   \]
+   \[
+   \text{Remaining Balance} = 100 - 38 = 62
+   \]
+
+Thus, Mary needs to pay $62 before her next shopping trip.
+
+Answer: $62"
+21,train,train,22,"Question: A gumball machine has red, green, and blue gumballs. The machine has half as many blue gumballs as red gumballs. For each blue gumball, the machine has 4 times as many green gumballs. If the machine has 16 red gumballs how many gumballs are in the machine?",56,56,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's define the quantities based on the information given in the problem.
+
+1. Let \( R \) be the number of red gumballs.
+2. Let \( B \) be the number of blue gumballs.
+3. Let \( G \) be the number of green gumballs.
+
+From the problem, we know the following:
+
+- The machine has 16 red gumballs:
+  \[
+  R = 16
+  \]
+
+- The machine has half as many blue gumballs as red gumballs:
+  \[
+  B = \frac{1}{2} R
+  \]
+
+- For each blue gumball, the machine has 4 times as many green gumballs:
+  \[
+  G = 4B
+  \]
+
+Now, we can substitute the value of \( R \) into the equation for \( B \):
+\[
+B = \frac{1}{2} \times 16 = 8
+\]
+
+Next, we substitute the value of \( B \) into the equation for \( G \):
+\[
+G = 4 \times 8 = 32
+\]
+
+Now we have the quantities:
+- \( R = 16 \)
+- \( B = 8 \)
+- \( G = 32 \)
+
+To find the total number of gumballs in the machine, we sum the quantities of red, blue, and green gumballs:
+\[
+\text{Total} = R + B + G = 16 + 8 + 32
+\]
+
+Calculating the total:
+\[
+\text{Total} = 16 + 8 = 24
+\]
+\[
+\text{Total} = 24 + 32 = 56
+\]
+
+Thus, the total number of gumballs in the machine is:
+\[
+\text{Total} = 56
+\]
+
+Finally, we can state the answer:
+Answer: 56"
+22,train,train,23,Question: Delaney has to catch a bus that leaves at 8:00. a.m to school every day. He always takes 30 minutes to reach the pick-up point from his home. One day he woke up late and left his home at 7:50. How much time did he miss the bus by when he reached the pick-up point?,20,20,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine how much time Delaney missed the bus by when he reached the pick-up point.
+
+1. **Identify the bus departure time**: The bus leaves at 8:00 a.m.
+
+2. **Determine the time Delaney left home**: Delaney left his home at 7:50 a.m.
+
+3. **Calculate the time it takes for Delaney to reach the pick-up point**: Delaney takes 30 minutes to reach the pick-up point.
+
+4. **Calculate the time Delaney will arrive at the pick-up point**:
+   - He leaves at 7:50 a.m. and takes 30 minutes to reach the pick-up point.
+   - 7:50 a.m. + 30 minutes = 8:20 a.m.
+
+5. **Determine how late Delaney is**:
+   - The bus leaves at 8:00 a.m., and Delaney arrives at 8:20 a.m.
+   - To find out how late he is, we subtract the bus departure time from his arrival time:
+   - 8:20 a.m. - 8:00 a.m. = 20 minutes.
+
+Thus, Delaney missed the bus by 20 minutes.
+
+Answer: 20"
+23,train,train,24,Question: Mark donates soup to the 6 homeless shelters.  Each one services 30 people and he decides to buy 10 cans of soup per person.  How many cans of soup does Mark donate?,1800,1800,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will break it down into quantities and equations step by step.
+
+1. **Identify the number of shelters**: Mark donates soup to 6 homeless shelters.
+   \[
+   \text{Number of shelters} = 6
+   \]
+
+2. **Identify the number of people served by each shelter**: Each shelter services 30 people.
+   \[
+   \text{People per shelter} = 30
+   \]
+
+3. **Calculate the total number of people served**: To find the total number of people served across all shelters, we multiply the number of shelters by the number of people per shelter.
+   \[
+   \text{Total people} = \text{Number of shelters} \times \text{People per shelter} = 6 \times 30
+   \]
+   \[
+   \text{Total people} = 180
+   \]
+
+4. **Identify the number of cans of soup per person**: Mark decides to buy 10 cans of soup per person.
+   \[
+   \text{Cans per person} = 10
+   \]
+
+5. **Calculate the total number of cans of soup donated**: To find the total number of cans of soup, we multiply the total number of people by the number of cans per person.
+   \[
+   \text{Total cans of soup} = \text{Total people} \times \text{Cans per person} = 180 \times 10
+   \]
+   \[
+   \text{Total cans of soup} = 1800
+   \]
+
+6. **Check the result against constraints**: 
+   - We calculated the total number of people served as 180.
+   - We calculated the total number of cans of soup as 1800, which is consistent with the number of people and the cans per person.
+
+Thus, the final answer is:
+\[
+\text{Answer: } 1800
+\]"
+24,train,train,25,Question: Hammond carves life-sized statues out of marble. His latest set of four statues started with an 80-pound block of marble. The first statue he carved weighed 10 pounds. The second statue weighed 18. The remaining two statues weighed the same amount. The marble he discarded after carving it off the statues weighed 22 pounds. How much did each of the remaining statues Hammond carved weigh?,15,15,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will first translate the information given into quantities and equations.
+
+1. **Initial weight of the marble block**: 80 pounds.
+2. **Weight of the first statue**: 10 pounds.
+3. **Weight of the second statue**: 18 pounds.
+4. **Weight of the remaining two statues**: Let \( x \) be the weight of each of the remaining two statues. Therefore, the total weight of the two remaining statues is \( 2x \).
+5. **Weight of the discarded marble**: 22 pounds.
+
+Now, we can set up an equation based on the total weight of the marble block and the weights of the statues and the discarded marble.
+
+The total weight of the marble used for the statues and the discarded marble should equal the initial weight of the marble block:
+
+\[
+\text{Weight of the first statue} + \text{Weight of the second statue} + \text{Weight of the remaining statues} + \text{Weight of discarded marble} = \text{Initial weight of the marble block}
+\]
+
+Substituting the known values into the equation:
+
+\[
+10 + 18 + 2x + 22 = 80
+\]
+
+Now, we will simplify the left side of the equation:
+
+\[
+10 + 18 = 28
+\]
+\[
+28 + 22 = 50
+\]
+
+So, we have:
+
+\[
+50 + 2x = 80
+\]
+
+Next, we will isolate \( 2x \) by subtracting 50 from both sides:
+
+\[
+2x = 80 - 50
+\]
+\[
+2x = 30
+\]
+
+Now, we will solve for \( x \) by dividing both sides by 2:
+
+\[
+x = \frac{30}{2}
+\]
+\[
+x = 15
+\]
+
+Thus, the weight of each of the remaining two statues is 15 pounds.
+
+Finally, we will check our result against the constraints in the question:
+
+- The first statue weighs 10 pounds.
+- The second statue weighs 18 pounds.
+- The two remaining statues each weigh 15 pounds, so together they weigh \( 2 \times 15 = 30 \) pounds.
+- The discarded marble weighs 22 pounds.
+
+Now, let's verify the total:
+
+\[
+10 + 18 + 30 + 22 = 80
+\]
+
+Since the total matches the initial weight of the marble block, our calculations are correct.
+
+Answer: $15"
+25,train,train,26,Question: A YouTube video got 3000 likes and 100 more than half as many dislikes. If the video gets 1000 more dislikes and 0 more likes how many dislikes does the video have?,2600,2600,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's break down the problem step by step.
+
+1. **Identify the number of likes**: The video has 3000 likes.
+
+2. **Determine the number of dislikes**: The problem states that the number of dislikes is 100 more than half as many likes. 
+   - First, we calculate half of the likes:
+     \[
+     \text{Half of likes} = \frac{3000}{2} = 1500
+     \]
+   - Now, we add 100 to this value to find the number of dislikes:
+     \[
+     \text{Dislikes} = 1500 + 100 = 1600
+     \]
+
+3. **Adjust the number of dislikes**: The problem states that the video gets 1000 more dislikes. Therefore, we need to add 1000 to the current number of dislikes:
+   \[
+   \text{New dislikes} = 1600 + 1000 = 2600
+   \]
+
+4. **Final count of dislikes**: After adding the additional dislikes, the total number of dislikes is now 2600.
+
+Now, let's summarize the calculations:
+- Initial dislikes = 1600
+- Additional dislikes = 1000
+- Total dislikes = 1600 + 1000 = 2600
+
+Thus, the final answer is:
+Answer: 2600"
+26,train,train,27,Question: Marion’s bike cost $356. Stephanie’s bike is worth twice as much. What is the total price of their bikes?,1068,1068,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine the cost of both Marion's and Stephanie's bikes and then find the total price.
+
+1. **Identify the cost of Marion's bike:**
+   - Marion's bike cost = $356.
+
+2. **Determine the cost of Stephanie's bike:**
+   - Stephanie's bike is worth twice as much as Marion's bike.
+   - Therefore, the cost of Stephanie's bike = 2 × Marion's bike cost.
+   - Cost of Stephanie's bike = 2 × $356 = $712.
+
+3. **Calculate the total price of both bikes:**
+   - Total price = Cost of Marion's bike + Cost of Stephanie's bike.
+   - Total price = $356 + $712.
+
+4. **Perform the addition:**
+   - $356 + $712 = $1068.
+
+5. **Check the calculations:**
+   - Marion's bike: $356 (correct).
+   - Stephanie's bike: $712 (correct, as it is twice $356).
+   - Total: $1068 (correct).
+
+Thus, the total price of their bikes is $1068.
+
+Answer: $1068"
+27,train,train,28,"Question: A cafe has 9 indoor tables and 11 outdoor tables. Each indoor table has 10 chairs, and each outdoor table has 3 chairs. How many chairs are there in all?",123,123,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To find the total number of chairs in the cafe, we need to calculate the number of chairs for both indoor and outdoor tables separately and then sum them up.
+
+1. **Calculate the number of chairs for indoor tables:**
+   - Number of indoor tables = 9
+   - Number of chairs per indoor table = 10
+   - Total number of chairs for indoor tables = Number of indoor tables × Number of chairs per indoor table
+   \[
+   \text{Total indoor chairs} = 9 \times 10 = 90
+   \]
+
+2. **Calculate the number of chairs for outdoor tables:**
+   - Number of outdoor tables = 11
+   - Number of chairs per outdoor table = 3
+   - Total number of chairs for outdoor tables = Number of outdoor tables × Number of chairs per outdoor table
+   \[
+   \text{Total outdoor chairs} = 11 \times 3 = 33
+   \]
+
+3. **Calculate the total number of chairs in the cafe:**
+   - Total chairs = Total indoor chairs + Total outdoor chairs
+   \[
+   \text{Total chairs} = 90 + 33 = 123
+   \]
+
+Now, we have calculated the total number of chairs in the cafe.
+
+Answer: 123"
+28,train,train,29,"Question: Louise is baking cakes for a gathering. She needs 60 cakes in total, and has already produced half this many. Today, she calculates how many cakes she has left to make and bakes half this amount. The next day, she again calculates how many cakes she has left to make and bakes a third of this amount. How many more cakes does Louise need to bake?",10,10,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","Let's break down the problem step by step.
+
+1. **Total Cakes Needed**: Louise needs a total of 60 cakes.
+
+2. **Cakes Already Made**: She has already produced half of the total cakes:
+   \[
+   \text{Cakes made} = \frac{60}{2} = 30 \text{ cakes}
+   \]
+
+3. **Cakes Left to Make**: To find out how many cakes she has left to make, we subtract the number of cakes she has already made from the total needed:
+   \[
+   \text{Cakes left} = 60 - 30 = 30 \text{ cakes}
+   \]
+
+4. **Cakes Baked Today**: Today, she bakes half of the remaining cakes:
+   \[
+   \text{Cakes baked today} = \frac{30}{2} = 15 \text{ cakes}
+   \]
+
+5. **Cakes Left After Today**: After baking today, we need to recalculate how many cakes are left:
+   \[
+   \text{Cakes left after today} = 30 - 15 = 15 \text{ cakes}
+   \]
+
+6. **Cakes Baked Tomorrow**: The next day, she calculates how many cakes she has left and bakes a third of this amount:
+   \[
+   \text{Cakes baked tomorrow} = \frac{15}{3} = 5 \text{ cakes}
+   \]
+
+7. **Cakes Left After Tomorrow**: Now we find out how many cakes are left after baking tomorrow:
+   \[
+   \text{Cakes left after tomorrow} = 15 - 5 = 10 \text{ cakes}
+   \]
+
+Thus, the total number of cakes Louise still needs to bake is:
+\[
+\text{Cakes left to bake} = 10 \text{ cakes}
+\]
+
+Finally, we conclude with the answer:
+Answer: 10"
+29,train,train,30,"Question: Barry has $10.00 worth of dimes.  His little brother, Dan has half that amount but finds 2 more dimes on his way home from school.  How many dimes does Dan have?",52,52,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we will first determine how many dimes Barry has, then calculate how much money Dan has, and finally find out how many dimes Dan has after finding 2 more dimes.
+
+1. **Determine the number of dimes Barry has:**
+   - Barry has $10.00 worth of dimes.
+   - The value of one dime is $0.10.
+   - To find the number of dimes Barry has, we can use the formula:
+     \[
+     \text{Number of dimes} = \frac{\text{Total value}}{\text{Value of one dime}} = \frac{10.00}{0.10}
+     \]
+   - Performing the calculation:
+     \[
+     \frac{10.00}{0.10} = 100
+     \]
+   - Therefore, Barry has 100 dimes.
+
+2. **Determine how much money Dan has:**
+   - Dan has half the amount of money that Barry has.
+   - Since Barry has $10.00, Dan has:
+     \[
+     \text{Dan's amount} = \frac{10.00}{2} = 5.00
+     \]
+   - So, Dan has $5.00.
+
+3. **Determine the number of dimes Dan has before finding more:**
+   - We can find out how many dimes Dan has by using the same method as before:
+     \[
+     \text{Number of dimes Dan has} = \frac{\text{Dan's total value}}{\text{Value of one dime}} = \frac{5.00}{0.10}
+     \]
+   - Performing the calculation:
+     \[
+     \frac{5.00}{0.10} = 50
+     \]
+   - Therefore, Dan has 50 dimes before finding more.
+
+4. **Calculate the total number of dimes Dan has after finding 2 more:**
+   - Dan finds 2 more dimes, so we add this to the number of dimes he already has:
+     \[
+     \text{Total dimes Dan has} = 50 + 2 = 52
+     \]
+
+Thus, the final answer is:
+
+Answer: 52"
+30,train,train,31,"Question: A river is to be used for a boat race. If each boat is 3 feet across and they must have at least 2 feet between them or the riverbank, how many boats can race in a river that is 42 feet across?",8,8,"You are the Generator in a Generator-Verifier mathematical
+reasoning system. Solve the word problem using an explicit chain of thought. Translate
+the story into quantities and equations, perform every intermediate calculation in
+order, track units, and check the result against all constraints in the question.
+Do not skip steps or guess from surface patterns. The final line must be exactly
+'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.","To solve the problem, we need to determine how many boats can fit in a river that is 42 feet across, given the width of each boat and the required spacing between them.
+
+1. **Identify the width of each boat**: Each boat is 3 feet wide.
+
+2. **Identify the required spacing**: Each boat must have at least 2 feet of space between itself and the next boat or the riverbank.
+
+3. **Calculate the total space taken by one boat and its required spacing**:
+   - The space taken by one boat is 3 feet.
+   - The space required on one side of the boat is 2 feet (to the riverbank or the next boat).
+   - Therefore, the total space taken by one boat and the required space on one side is:
+     \[
+     \text{Total space for one boat} = \text{Width of boat} + \text{Spacing} = 3 \text{ feet} + 2 \text{ feet} = 5 \text{ feet}
+     \]
+
+4. **Calculate the total space taken by multiple boats**:
+   - If we have \( n \) boats, the total space taken by the boats and the required spacing between them must be considered. The spacing between each pair of boats is also 2 feet.
+   - For \( n \) boats, there will be \( n - 1 \) gaps between them, each requiring 2 feet of space.
+   - Therefore, the total space used by \( n \) boats is:
+     \[
+     \text{Total space} = n \times \text{Width of boat} + (n - 1) \times \text{Spacing}
+     \]
+   - Substituting the values:
+     \[
+     \text{Total space} = n \times 3 \text{ feet} + (n - 1) \times 2 \text{ feet}
+     \]
+   - Simplifying this:
+     \[
+     \text{Total space} = 3n + 2(n - 1) = 3n + 2n - 2 = 5n - 2
+     \]
+
+5. **Set up the inequality**:
+   - We need the total space used by the boats to be less than or equal to the width of the river:
+     \[
+     5n - 2 \leq 42
+     \]
+
+6. **Solve for \( n \)**:
+   - First, add 2 to both sides:
+     \[
+     5n \leq 44
+     \]
+   - Now, divide both sides by 5:
+     \[
+     n \leq \frac{44}{5} = 8.8
+     \]
+
+7. **Determine the maximum number of boats**:
+   - Since \( n \) must be a whole number, we take the largest whole number less than or equal to 8.8, which is 8.
+
+8. **Check the result**:
+   - If \( n = 8 \):
+     \[
+     \text{Total space} = 5(8) - 2 = 40 - 2 = 38 \text{ feet}
+     \]
+   - This is less than 42 feet, so it fits.
+   - If \( n = 9 \):
+     \[
+     \text{Total space} = 5(9) - 2 = 45 - 2 = 43 \text{ feet}
+     \]
+   - This exceeds 42 feet, so it does not fit.
+
+Thus, the maximum number of boats that can race in the river is 8.
+
+Answer: 8"

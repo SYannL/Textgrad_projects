@@ -1,0 +1,23 @@
+{
+  "model": "gpt-4o-mini",
+  "generator_prompt": "You are the Generator in a Generator-Verifier mathematical\nreasoning system. Solve the word problem using an explicit chain of thought. Translate\nthe story into quantities and equations, perform every intermediate calculation in\norder, track units, and check the result against all constraints in the question.\nDo not skip steps or guess from surface patterns. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.",
+  "positions": {
+    "train": 200,
+    "val": 300,
+    "test": 216
+  },
+  "scanned_count": 716,
+  "wrong_count": 45,
+  "complete": true,
+  "train_target": 30,
+  "val_target": 15,
+  "last_trim": {
+    "removed_wrong_ids": [
+      46,
+      47,
+      48,
+      49
+    ],
+    "trimmed_at_utc": "2026-07-06T20:56:17.141221+00:00"
+  }
+}
