@@ -36,6 +36,49 @@ pip install -e .
 
 Set `OPENAI_API_KEY` before a real run.
 
+### Use an existing vLLM API server
+
+The Generator, Verifier, and backward engine can all use an existing vLLM
+server through its OpenAI-compatible API. This client does not load another
+model or require the `vllm` Python package in the `textgrad` environment.
+
+First check which model name the server exposes:
+
+```bash
+curl http://localhost:8000/v1/models
+```
+
+Then pass that model name and endpoint to the CLI:
+
+```bash
+python -m adversarial_gv \
+  --generator-model your-served-model-name \
+  --verifier-model your-served-model-name \
+  --backward-model your-served-model-name \
+  --vllm-base-url http://localhost:8000/v1 \
+  --iterations 1
+```
+
+The endpoint can alternatively be configured with environment variables:
+
+```bash
+export VLLM_BASE_URL=http://localhost:8000/v1
+export VLLM_API_KEY=EMPTY  # replace this if the server requires a real key
+```
+
+Generator, Verifier, and TextGrad backward/optimizer calls can use separate
+vLLM services. Role-specific values override the shared `VLLM_BASE_URL`:
+
+```bash
+export GENERATOR_VLLM_BASE_URL=http://127.0.0.1:8004/v1
+export VERIFIER_VLLM_BASE_URL=http://127.0.0.1:8000/v1
+export BACKWARD_VLLM_BASE_URL=http://127.0.0.1:8000/v1
+```
+
+`VLLM_API_KEY` is optional and defaults to `EMPTY`, which is suitable for the
+usual unauthenticated local vLLM server. The API key is never written to run
+results.
+
 ## Run one case
 
 ```bash
@@ -103,4 +146,37 @@ written one call per row to `runs/gradient_traces.csv` for auditing.
 
 ```bash
 python -m unittest discover -s tests -v
+```
+
+## Vanilla TextGrad GSM8K baseline
+
+Two separate TextGrad baselines are available.
+
+`scripts/run_qwen4b_vanilla_textgrad_qwen32b.py` is a G-side ablation of the
+completed GVGAN run. It removes the Verifier and alternating objective while
+retaining the same immutable Generator system rules, trainable strategy,
+Generator optimizer constraints, 512-token backward limit, sequential batch
+size 6 schedule (35 updates over all 208 training cases), and initial/per-batch
+train/val/test evaluations. The remaining objective is TextGrad's GSM8K
+final-integer equality. Qwen3-4B is the forward model; Qwen3-32B supplies both
+textual backward feedback and optimizer updates.
+
+The run is resumable from `state.json`. Raw backward and optimizer prompts are
+written to `textgrad_calls.jsonl`. Updates are unconditional, as in GVGAN; all
+split evaluations are observational and never select or roll back a prompt.
+
+```bash
+python scripts/run_qwen4b_vanilla_textgrad_qwen32b.py
+```
+
+`scripts/run_qwen4b_original_textgrad_qwen32b.py` instead follows the original
+`textgrad/evaluation/prompt_optimization.py` GSM8K protocol. It uses the
+original monolithic trainable prompt, batch size 3, seed 42 NumPy shuffling,
+three epochs with four updates each, no constraints or momentum, no custom
+backward cap, non-decreasing validation selection, and initial/per-update
+val/test evaluation. Only the data and engines are replaced by our balanced
+CSV, Qwen3-4B forward, and Qwen3-32B backward/optimizer.
+
+```bash
+python scripts/run_qwen4b_original_textgrad_qwen32b.py
 ```

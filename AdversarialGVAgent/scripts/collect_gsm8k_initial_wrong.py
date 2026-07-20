@@ -19,7 +19,11 @@ from textgrad.tasks.big_bench_hard import parse_integer_answer
 from adversarial_gv.agents import GeneratorAgent
 from adversarial_gv.data import case_from_dataset, load_textgrad_dataset
 from adversarial_gv.evaluation import is_correct
-from adversarial_gv.prompts import GSM8K_GENERATOR_PROMPT
+from adversarial_gv.prompts import (
+    GSM8K_GENERATOR_FIXED_SYSTEM_PROMPT,
+    GSM8K_GENERATOR_PROMPT,
+    GSM8K_GENERATOR_STRATEGY_PROMPT,
+)
 
 
 MODEL = "gpt-4o-mini"
@@ -149,12 +153,17 @@ def main(argv: Sequence[str] = None) -> None:
         print(f"Already collected {state['wrong_count']} wrong samples: {csv_path}")
         return
 
-    prompt = tg.Variable(
-        GSM8K_GENERATOR_PROMPT,
+    fixed_prompt = tg.Variable(
+        GSM8K_GENERATOR_FIXED_SYSTEM_PROMPT,
         requires_grad=False,
-        role_description="fixed initial GSM8K chain-of-thought Generator prompt",
+        role_description="fixed GSM8K Generator role, rules, and output format",
     )
-    generator = GeneratorAgent(tg.get_engine(MODEL), prompt)
+    strategy_prompt = tg.Variable(
+        GSM8K_GENERATOR_STRATEGY_PROMPT,
+        requires_grad=False,
+        role_description="fixed initial GSM8K Generator strategy",
+    )
+    generator = GeneratorAgent(tg.get_engine(MODEL), strategy_prompt, fixed_prompt)
 
     def answer_one(dataset, split: str, index: int):
         case = case_from_dataset(dataset, "gsm8k", index, split)

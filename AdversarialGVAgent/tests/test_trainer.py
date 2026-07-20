@@ -15,7 +15,7 @@ class GeneratorEngine(EngineLM):
         return self(prompt, system_prompt=system_prompt, **kwargs)
 
     def __call__(self, prompt, system_prompt=None, **kwargs):
-        return "There are two objects.\nAnswer: 2"
+        return "Step 1: There are two objects.\nAnswer: 2"
 
 
 class VerifierEngine(EngineLM):
@@ -26,6 +26,10 @@ class VerifierEngine(EngineLM):
 
     def __call__(self, prompt, system_prompt=None, **kwargs):
         return (
+            '<TRAJECTORY_AUDIT><STEP_AUDIT index="1" status="VALID">'
+            "The count is valid.</STEP_AUDIT></TRAJECTORY_AUDIT>"
+            "<FIRST_ERROR>NONE</FIRST_ERROR>"
+            "<FINAL_ANSWER_CHECK>The answer follows.</FINAL_ANSWER_CHECK>"
             "<VERDICT>ACCEPT</VERDICT>"
             "<CONFIDENCE>1</CONFIDENCE>"
             "<CRITIQUE>The count is consistent.</CRITIQUE>"
@@ -43,6 +47,11 @@ class BackwardEngine(EngineLM):
 
     def __call__(self, prompt, system_prompt=None, **kwargs):
         self.prompts.append(str(prompt))
+        if system_prompt and "fixed training-only trajectory judge" in system_prompt:
+            return (
+                "<TRAJECTORY_LABEL>ACCEPT</TRAJECTORY_LABEL>"
+                "<RATIONALE>NONE</RATIONALE>"
+            )
         if system_prompt and "optimization system that improves text" in system_prompt:
             return "<IMPROVED_VARIABLE>general improved prompt</IMPROVED_VARIABLE>"
         return "Give more precise task-specific feedback and verify the arithmetic."
@@ -56,9 +65,15 @@ class TrainerTests(unittest.TestCase):
         v_prompt = tg.Variable(
             "verifier", requires_grad=True, role_description="verifier prompt"
         )
+        g_fixed = tg.Variable(
+            "FIXED GENERATOR\n", requires_grad=False, role_description="fixed generator"
+        )
+        v_fixed = tg.Variable(
+            "FIXED VERIFIER\n", requires_grad=False, role_description="fixed verifier"
+        )
         trainer = AdversarialGVTrainer(
-            GeneratorAgent(GeneratorEngine(), g_prompt),
-            VerifierAgent(VerifierEngine(), v_prompt),
+            GeneratorAgent(GeneratorEngine(), g_prompt, g_fixed),
+            VerifierAgent(VerifierEngine(), v_prompt, v_fixed),
             BackwardEngine(),
             TrainingConfig(iterations=1),
         )
@@ -70,6 +85,8 @@ class TrainerTests(unittest.TestCase):
         self.assertEqual(result["final"]["verdict"]["label"], "ACCEPT")
         self.assertEqual(g_prompt.value, "general improved prompt")
         self.assertEqual(v_prompt.value, "general improved prompt")
+        self.assertEqual(g_fixed.value, "FIXED GENERATOR\n")
+        self.assertEqual(v_fixed.value, "FIXED VERIFIER\n")
 
     def test_gold_reasoning_mode_adds_expected_generator_trajectory(self):
         g_prompt = tg.Variable(

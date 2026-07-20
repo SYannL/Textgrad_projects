@@ -5,6 +5,10 @@ from typing import Any, Dict, List
 from textgrad.engine import EngineLM
 
 
+BACKWARD_MAX_TOKENS = 512
+BACKWARD_LENGTH_INSTRUCTION = "Return at most 500 tokens."
+
+
 class RecordingEngine(EngineLM):
     def __init__(self, engine: EngineLM):
         self.engine = engine
@@ -37,6 +41,13 @@ class RecordingEngine(EngineLM):
 
     def __call__(self, prompt, system_prompt=None, **kwargs):
         kind = self._kind(system_prompt, prompt)
+        if kind == "backward_gradient":
+            kwargs.setdefault("max_tokens", BACKWARD_MAX_TOKENS)
+            system_prompt = (
+                f"{str(system_prompt).rstrip()}\n\n{BACKWARD_LENGTH_INSTRUCTION}"
+                if system_prompt
+                else BACKWARD_LENGTH_INSTRUCTION
+            )
         call_index = len(self.records) + 1
         print(f"    engine call {call_index} start kind={kind}", flush=True)
         response = self.engine(prompt, system_prompt=system_prompt, **kwargs)

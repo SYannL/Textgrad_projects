@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "task": "balanced-gsm8k-one-pass-initial-generator-baseline",
+  "data": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/gsm8k_qwen4b_balanced_1to1/mixed_samples.csv",
+  "model": "qwen32b-api",
+  "vllm_base_url": "http://127.0.0.1:8000/v1",
+  "vllm_enable_thinking": false,
+  "temperature": 0,
+  "max_tokens": 2000,
+  "generator_fixed_system_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.",
+  "generator_strategy_prompt": "Solve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.",
+  "generator_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.\n\n<TRAINABLE_STRATEGY>\nSolve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.\n</TRAINABLE_STRATEGY>",
+  "generator_prompt_sha256": "2e51f92c63e9175e5c7cfa05d59659e1b3ebcec46d95ab6145d82f54bff3d33e",
+  "created_at_utc": "2026-07-19T08:03:42.560496+00:00",
+  "updated_at_utc": "2026-07-19T08:15:59.919332+00:00",
+  "complete": true,
+  "workers": 8,
+  "metrics": {
+    "train": {
+      "target_count": 208,
+      "completed_count": 208,
+      "correct_count": 168,
+      "incorrect_count": 40,
+      "accuracy": 0.8076923076923077,
+      "coverage": 1.0
+    },
+    "val": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 23,
+      "incorrect_count": 7,
+      "accuracy": 0.7666666666666667,
+      "coverage": 1.0
+    },
+    "test": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 23,
+      "incorrect_count": 7,
+      "accuracy": 0.7666666666666667,
+      "coverage": 1.0
+    },
+    "overall": {
+      "target_count": 268,
+      "completed_count": 268,
+      "correct_count": 214,
+      "incorrect_count": 54,
+      "accuracy": 0.7985074626865671,
+      "coverage": 1.0
+    }
+  },
+  "token_usage": {
+    "generator": {
+      "prompt_tokens": 67436,
+      "completion_tokens": 66937,
+      "total_tokens": 134373
+    },
+    "all": {
+      "prompt_tokens": 67436,
+      "completion_tokens": 66937,
+      "total_tokens": 134373
+    }
+  },
+  "predictions_jsonl": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen32b_initial_prompt_baseline/predictions.jsonl",
+  "predictions_csv": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen32b_initial_prompt_baseline/predictions.csv",
+  "errors_jsonl": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen32b_initial_prompt_baseline/errors.jsonl"
+}

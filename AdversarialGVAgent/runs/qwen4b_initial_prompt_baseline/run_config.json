@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "task": "balanced-gsm8k-one-pass-initial-generator-baseline",
+  "data": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/gsm8k_qwen4b_balanced_1to1/mixed_samples.csv",
+  "model": "qwen4b-api",
+  "vllm_base_url": "http://127.0.0.1:8004/v1",
+  "vllm_enable_thinking": false,
+  "temperature": 0,
+  "max_tokens": 2000,
+  "generator_fixed_system_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.",
+  "generator_strategy_prompt": "Solve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.",
+  "generator_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.\n\n<TRAINABLE_STRATEGY>\nSolve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.\n</TRAINABLE_STRATEGY>",
+  "generator_prompt_sha256": "2e51f92c63e9175e5c7cfa05d59659e1b3ebcec46d95ab6145d82f54bff3d33e"
+}

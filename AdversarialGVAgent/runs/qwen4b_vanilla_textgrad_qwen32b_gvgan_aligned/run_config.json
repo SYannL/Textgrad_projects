@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "task": "balanced-gsm8k-vanilla-textgrad-gvgan-aligned-ablation",
+  "data": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/gsm8k_qwen4b_balanced_1to1/mixed_samples.csv",
+  "data_sha256": "41b6648cd382ddec94113e9161aa3244abebb5630d23c2fbfbab46d25c9bc788",
+  "forward_model": "qwen4b-api",
+  "backward_model": "qwen32b-api",
+  "forward_vllm_base_url": "http://127.0.0.1:8004/v1",
+  "backward_vllm_base_url": "http://127.0.0.1:8000/v1",
+  "forward_enable_thinking": false,
+  "backward_enable_thinking": false,
+  "temperature": 0,
+  "engine_default_max_tokens": 2000,
+  "initial_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.\n\n<TRAINABLE_STRATEGY>\nSolve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.\n</TRAINABLE_STRATEGY>",
+  "initial_prompt_sha256": "2e51f92c63e9175e5c7cfa05d59659e1b3ebcec46d95ab6145d82f54bff3d33e",
+  "fixed_system_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.",
+  "initial_trainable_strategy": "Solve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.",
+  "trainable_variable": "strategy only; fixed Generator system prompt is immutable",
+  "objective": "TextGrad GSM8K final-integer string equality (0/1)",
+  "optimizer": "TextualGradientDescent",
+  "optimizer_constraints": [
+    "Remain general: never include a particular training question or answer.",
+    "Improve only the problem-solving strategy; do not restate or redefine fixed system rules.",
+    "Support explicit multi-step mathematical reasoning and unit checks.",
+    "Improve genuine correctness, never manipulate the Verifier."
+  ],
+  "gradient_memory": 0,
+  "batch_aggregation": "tg.sum",
+  "backward_max_tokens": 512,
+  "backward_length_instruction": "Return at most 500 tokens.",
+  "update_acceptance": "unconditional, matching GVGAN",
+  "evaluation_policy": "initial and after every batch on train/val/test, matching GVGAN",
+  "batch_size": 6,
+  "epochs": 1,
+  "total_steps": 35,
+  "batch_schedule_train_offsets": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    [
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    [
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ],
+    [
+      48,
+      49,
+      50,
+      51,
+      52,
+      53
+    ],
+    [
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    [
+      60,
+      61,
+      62,
+      63,
+      64,
+      65
+    ],
+    [
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
+    ],
+    [
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
+    ],
+    [
+      78,
+      79,
+      80,
+      81,
+      82,
+      83
+    ],
+    [
+      84,
+      85,
+      86,
+      87,
+      88,
+      89
+    ],
+    [
+      90,
+      91,
+      92,
+      93,
+      94,
+      95
+    ],
+    [
+      96,
+      97,
+      98,
+      99,
+      100,
+      101
+    ],
+    [
+      102,
+      103,
+      104,
+      105,
+      106,
+      107
+    ],
+    [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113
+    ],
+    [
+      114,
+      115,
+      116,
+      117,
+      118,
+      119
+    ],
+    [
+      120,
+      121,
+      122,
+      123,
+      124,
+      125
+    ],
+    [
+      126,
+      127,
+      128,
+      129,
+      130,
+      131
+    ],
+    [
+      132,
+      133,
+      134,
+      135,
+      136,
+      137
+    ],
+    [
+      138,
+      139,
+      140,
+      141,
+      142,
+      143
+    ],
+    [
+      144,
+      145,
+      146,
+      147,
+      148,
+      149
+    ],
+    [
+      150,
+      151,
+      152,
+      153,
+      154,
+      155
+    ],
+    [
+      156,
+      157,
+      158,
+      159,
+      160,
+      161
+    ],
+    [
+      162,
+      163,
+      164,
+      165,
+      166,
+      167
+    ],
+    [
+      168,
+      169,
+      170,
+      171,
+      172,
+      173
+    ],
+    [
+      174,
+      175,
+      176,
+      177,
+      178,
+      179
+    ],
+    [
+      180,
+      181,
+      182,
+      183,
+      184,
+      185
+    ],
+    [
+      186,
+      187,
+      188,
+      189,
+      190,
+      191
+    ],
+    [
+      192,
+      193,
+      194,
+      195,
+      196,
+      197
+    ],
+    [
+      198,
+      199,
+      200,
+      201,
+      202,
+      203
+    ],
+    [
+      204,
+      205,
+      206,
+      207
+    ]
+  ]
+}

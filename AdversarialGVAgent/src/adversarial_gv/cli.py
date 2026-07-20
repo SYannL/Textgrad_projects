@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Sequence
@@ -12,8 +13,16 @@ from dotenv import load_dotenv
 from .agents import GeneratorAgent, VerifierAgent
 from .data import DATASET_CHOICES, case_from_dataset, load_textgrad_dataset
 from .evaluation import is_correct
+from .engines import build_engine, resolve_role_base_urls
 from .gradient_reporting import append_gradient_csv
-from .prompts import GENERATOR_PROMPT, GSM8K_GENERATOR_PROMPT, VERIFIER_PROMPT
+from .prompts import (
+    GENERATOR_FIXED_SYSTEM_PROMPT,
+    GENERATOR_STRATEGY_PROMPT,
+    GSM8K_GENERATOR_FIXED_SYSTEM_PROMPT,
+    GSM8K_GENERATOR_STRATEGY_PROMPT,
+    VERIFIER_FIXED_SYSTEM_PROMPT,
+    VERIFIER_STRATEGY_PROMPT,
+)
 from .reporting import append_result_csv
 from .recording import RecordingEngine
 from .trainer import (
@@ -30,6 +39,40 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--generator-model", default="gpt-4o-mini")
     parser.add_argument("--verifier-model", default="gpt-4o-mini")
     parser.add_argument("--backward-model", default="gpt-4o-mini")
+    parser.add_argument(
+        "--vllm-base-url",
+        default=os.getenv("VLLM_BASE_URL"),
+        help=(
+            "OpenAI-compatible vLLM endpoint, for example http://localhost:8000/v1. "
+            "Can also be set with VLLM_BASE_URL."
+        ),
+    )
+    parser.add_argument(
+        "--generator-vllm-base-url",
+        default=os.getenv("GENERATOR_VLLM_BASE_URL"),
+        help="Generator vLLM endpoint; overrides --vllm-base-url.",
+    )
+    parser.add_argument(
+        "--verifier-vllm-base-url",
+        default=os.getenv("VERIFIER_VLLM_BASE_URL"),
+        help="Verifier vLLM endpoint; overrides --vllm-base-url.",
+    )
+    parser.add_argument(
+        "--backward-vllm-base-url",
+        default=os.getenv("BACKWARD_VLLM_BASE_URL"),
+        help=(
+            "TextGrad backward, CoT labeler, and optimizer endpoint; "
+            "overrides --vllm-base-url."
+        ),
+    )
+    parser.add_argument(
+        "--vllm-api-key",
+        default=os.getenv("VLLM_API_KEY"),
+        help=(
+            "API key for the vLLM endpoint; defaults to EMPTY when omitted. "
+            "Can also be set with VLLM_API_KEY."
+        ),
+    )
     parser.add_argument("--iterations", type=int, default=1)
     parser.add_argument("--dataset", choices=DATASET_CHOICES, default="bbh_object_counting")
     parser.add_argument(
@@ -68,29 +111,60 @@ def main(argv: Sequence[str] | None = None) -> None:
     load_dotenv()
     parser = build_parser()
     args = parser.parse_args(argv)
-    generator_engine = tg.get_engine(args.generator_model)
-    verifier_engine = tg.get_engine(args.verifier_model)
-    backward_engine = RecordingEngine(tg.get_engine(args.backward_model))
+    role_base_urls = resolve_role_base_urls(
+        shared=args.vllm_base_url,
+        generator=args.generator_vllm_base_url,
+        verifier=args.verifier_vllm_base_url,
+        backward=args.backward_vllm_base_url,
+    )
+    generator_engine = build_engine(
+        args.generator_model, role_base_urls["generator"], args.vllm_api_key
+    )
+    verifier_engine = build_engine(
+        args.verifier_model, role_base_urls["verifier"], args.vllm_api_key
+    )
+    backward_engine = RecordingEngine(
+        build_engine(
+            args.backward_model,
+            role_base_urls["backward"],
+            args.vllm_api_key,
+        )
+    )
 
     if args.search_cases < 1:
         parser.error("--search-cases must be at least 1")
 
-    generator_prompt_text = (
-        GSM8K_GENERATOR_PROMPT if args.dataset == "gsm8k" else GENERATOR_PROMPT
+    generator_fixed_text, generator_strategy_text = (
+        (
+            GSM8K_GENERATOR_FIXED_SYSTEM_PROMPT,
+            GSM8K_GENERATOR_STRATEGY_PROMPT,
+        )
+        if args.dataset == "gsm8k"
+        else (GENERATOR_FIXED_SYSTEM_PROMPT, GENERATOR_STRATEGY_PROMPT)
     )
-    generator_prompt = tg.Variable(
-        generator_prompt_text,
-        requires_grad=True,
-        role_description="general system prompt controlling the Generator agent",
+    generator_fixed = tg.Variable(
+        generator_fixed_text,
+        requires_grad=False,
+        role_description="immutable Generator role, rules, and output format",
     )
-    verifier_prompt = tg.Variable(
-        VERIFIER_PROMPT,
+    generator_strategy = tg.Variable(
+        generator_strategy_text,
         requires_grad=True,
-        role_description="general system prompt controlling the Verifier agent",
+        role_description="trainable Generator problem-solving strategy",
+    )
+    verifier_fixed = tg.Variable(
+        VERIFIER_FIXED_SYSTEM_PROMPT,
+        requires_grad=False,
+        role_description="immutable Verifier role, audit rules, and output format",
+    )
+    verifier_strategy = tg.Variable(
+        VERIFIER_STRATEGY_PROMPT,
+        requires_grad=True,
+        role_description="trainable Verifier audit strategy",
     )
     trainer = AdversarialGVTrainer(
-        GeneratorAgent(generator_engine, generator_prompt),
-        VerifierAgent(verifier_engine, verifier_prompt),
+        GeneratorAgent(generator_engine, generator_strategy, generator_fixed),
+        VerifierAgent(verifier_engine, verifier_strategy, verifier_fixed),
         backward_engine,
         TrainingConfig(
             iterations=args.iterations,
@@ -147,6 +221,14 @@ def main(argv: Sequence[str] | None = None) -> None:
         "generator": args.generator_model,
         "verifier": args.verifier_model,
         "backward": args.backward_model,
+    }
+    result["backend"] = {
+        "type": (
+            "role-specific-vllm"
+            if any(role_base_urls.values())
+            else "textgrad-default"
+        ),
+        "base_urls": role_base_urls,
     }
 
     output_dir = Path(args.output_dir)

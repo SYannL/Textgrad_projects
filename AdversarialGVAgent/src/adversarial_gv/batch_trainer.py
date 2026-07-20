@@ -1,17 +1,26 @@
 """Strictly alternating mini-batch G/V prompt training."""
 
 import concurrent.futures
+import traceback
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Sequence
 
 import textgrad as tg
 from textgrad.autograd import FormattedLLMCall
 from textgrad.engine import EngineLM
-from textgrad.tasks.big_bench_hard import parse_integer_answer
 
 from .agents import GeneratorAgent, VerifierAgent
-from .evaluation import is_correct, parse_verdict
+from .evaluation import assert_complete_trajectory_audit, is_correct, parse_verdict
 from .prompts import GENERATOR_TRAINING_INSTRUCTION, VERIFIER_TRAINING_OBJECTIVE
+from .trajectory_labeling import label_trajectory
+
+
+GENERATOR_OPTIMIZER_CONSTRAINTS = [
+    "Remain general: never include a particular training question or answer.",
+    "Improve only the problem-solving strategy; do not restate or redefine fixed system rules.",
+    "Support explicit multi-step mathematical reasoning and unit checks.",
+    "Improve genuine correctness, never manipulate the Verifier.",
+]
 
 
 @dataclass(frozen=True)
@@ -46,12 +55,7 @@ class BatchAdversarialGVTrainer:
         self.g_optimizer = tg.TextualGradientDescent(
             engine=backward_engine,
             parameters=generator.parameters(),
-            constraints=[
-                "Remain general: never include a particular training question or answer.",
-                "Require explicit multi-step mathematical reasoning and unit checks.",
-                "Preserve the final format Answer: $VALUE.",
-                "Improve genuine correctness, never manipulate the Verifier.",
-            ],
+            constraints=GENERATOR_OPTIMIZER_CONSTRAINTS,
         )
         self.v_optimizer = tg.TextualGradientDescent(
             engine=backward_engine,
@@ -59,9 +63,15 @@ class BatchAdversarialGVTrainer:
             constraints=[
                 "Remain general: never include a particular training question or answer.",
                 "Do not claim access to ground truth during inference.",
-                "Preserve VERDICT, CONFIDENCE, and CRITIQUE tags.",
+                "Improve only the audit strategy; do not restate or redefine fixed system rules or tags.",
+                "Audit every material candidate step and identify the earliest error precisely.",
+                "Continue auditing every later step after finding the first error.",
+                "Emit exactly one indexed STEP_AUDIT for every numbered Generator Step.",
+                "Reject candidates without a meaningful auditable reasoning trajectory.",
+                "Use ACCEPT only when both the final answer and every material reasoning step are correct.",
+                "Use CHALLENGE when the final answer is correct but the trajectory is invalid, unsupported, incomplete, or missing.",
+                "Use REJECT when the final answer is incorrect or missing.",
                 "Act as a verifier/auditor of the candidate trajectory, not a second generator.",
-                "Do not add instructions to solve every problem from scratch; check suspicious steps only.",
                 "Tie critiques to the candidate's stated extraction, equations, arithmetic, and final answer.",
             ],
         )
@@ -72,6 +82,36 @@ class BatchAdversarialGVTrainer:
     def _trace(self, mark):
         return self.backward_engine.since(mark) if mark is not None else []
 
+    @staticmethod
+    def _error_record(
+        stage: str,
+        exc: Exception,
+        case: HardCase | None = None,
+        **context: Any,
+    ) -> Dict[str, Any]:
+        record = {
+            "stage": stage,
+            "error_type": type(exc).__name__,
+            "error_message": str(exc),
+            "traceback": traceback.format_exc(),
+        }
+        if case is not None:
+            record["wrong_id"] = case.wrong_id
+            record["case"] = asdict(case)
+        record.update(context)
+        return record
+
+    @staticmethod
+    def _print_skip(stage: str, error: Dict[str, Any]) -> None:
+        case_text = (
+            f" case {error['wrong_id']}" if "wrong_id" in error else ""
+        )
+        print(
+            f"  {stage}{case_text}: skipped "
+            f"{error['error_type']}: {error['error_message']}",
+            flush=True,
+        )
+
     def _v_loss(
         self,
         question: tg.Variable,
@@ -81,11 +121,13 @@ class BatchAdversarialGVTrainer:
         sample_kind: str,
     ):
         verdict = self.verifier.run(question, candidate)
+        assert_complete_trajectory_audit(candidate.value, verdict.value)
         objective = (
             VERIFIER_TRAINING_OBJECTIVE
             + f"\nGround-truth final answer (training only): {ground_truth.value}"
             + f"\nExpected verdict: {expected_label}"
-            + "\nJudge whether the critique correctly checks the full reasoning trajectory."
+            + "\nJudge whether the step audit covers the full reasoning trajectory and "
+            + "whether FIRST_ERROR pinpoints the earliest actual mistake."
         )
         loss = tg.TextLoss(objective, engine=self.backward_engine)(verdict)
         return loss, {
@@ -108,74 +150,91 @@ class BatchAdversarialGVTrainer:
 
         def build_generated_example(case: HardCase):
             print(f"  V-step case {case.wrong_id}: start", flush=True)
-            question = variable(case.question, "multi-step GSM8K question")
-            generated_graph = self.generator.run(question)
-            detached_generated = variable(
-                generated_graph.value,
-                "detached fixed Generator trajectory for Verifier training",
-            )
-            ground_truth = variable(case.ground_truth, "ground-truth final answer")
-            label = "ACCEPT" if is_correct(generated_graph.value, case.ground_truth) else "REJECT"
-            loss, record = self._v_loss(
-                question,
-                detached_generated,
-                ground_truth,
-                label,
-                "generator",
-            )
-            generated_record = {
-                "wrong_id": case.wrong_id,
-                "generator_output": generated_graph.value,
-                "expected_label": label,
-            }
-            print(f"  V-step case {case.wrong_id}: done label={label}", flush=True)
-            return loss, record, generated_record
+            context: Dict[str, Any] = {}
+            try:
+                question = variable(case.question, "multi-step GSM8K question")
+                generated_graph = self.generator.run(question)
+                context["generator_output"] = generated_graph.value
+                detached_generated = variable(
+                    generated_graph.value,
+                    "detached fixed Generator trajectory for Verifier training",
+                )
+                ground_truth = variable(
+                    case.ground_truth,
+                    "ground-truth final answer",
+                )
+                trajectory_label, labeler_output = label_trajectory(
+                    self.backward_engine,
+                    question,
+                    detached_generated,
+                    ground_truth,
+                )
+                label = trajectory_label.label
+                context["expected_label"] = label
+                context["labeler_output"] = labeler_output
+                loss, record = self._v_loss(
+                    question,
+                    detached_generated,
+                    ground_truth,
+                    label,
+                    "generator",
+                )
+                generated_record = {
+                    "wrong_id": case.wrong_id,
+                    "generator_output": generated_graph.value,
+                    "expected_label": label,
+                    "label_rationale": trajectory_label.rationale,
+                    "labeler_output": labeler_output,
+                }
+                print(
+                    f"  V-step case {case.wrong_id}: done label={label}",
+                    flush=True,
+                )
+                return {
+                    "loss": loss,
+                    "loss_record": record,
+                    "generated_record": generated_record,
+                    "error": None,
+                }
+            except Exception as exc:
+                error = self._error_record("V-step case", exc, case, **context)
+                self._print_skip("V-step", error)
+                return {"error": error}
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.training_workers) as executor:
             generated_results = list(executor.map(build_generated_example, cases))
 
-        evaluated = [(loss, record) for loss, record, _ in generated_results]
-        generated_records = [record for _, _, record in generated_results]
-        print("V-step generated/loss examples complete; running anchors", flush=True)
-
-        anchor = cases[0]
-        anchor_question = variable(anchor.question, "anchor GSM8K question")
-        anchor_truth = variable(anchor.ground_truth, "anchor ground-truth final answer")
-        correct_anchor = variable(
-            f"The final result is {anchor.ground_truth}.\nAnswer: {anchor.ground_truth}",
-            "fixed known-correct Verifier anchor",
-        )
-        wrong_value = parse_integer_answer(anchor.ground_truth) + 1
-        negative_anchor = variable(
-            f"The final result is {wrong_value}.\nAnswer: {wrong_value}",
-            "fixed known-incorrect Verifier anchor",
-        )
-        evaluated.extend(
-            [
-                self._v_loss(
-                    anchor_question,
-                    correct_anchor,
-                    anchor_truth,
-                    "ACCEPT",
-                    "positive_anchor",
-                ),
-                self._v_loss(
-                    anchor_question,
-                    negative_anchor,
-                    anchor_truth,
-                    "REJECT",
-                    "negative_anchor",
-                ),
-            ]
-        )
-        print("V-step backward start", flush=True)
-        tg.sum([loss for loss, _ in evaluated]).backward()
-        print("V-step optimizer step start", flush=True)
-        self.v_optimizer.step()
-        print("V-step complete", flush=True)
+        successful = [item for item in generated_results if item["error"] is None]
+        skipped_cases = [
+            item["error"] for item in generated_results if item["error"] is not None
+        ]
+        losses = [item["loss"] for item in successful]
+        print("V-step generated/loss examples complete", flush=True)
+        update_status = "skipped_no_valid_cases"
+        update_error = None
+        prompt_before_update = self.verifier.system_prompt.value
+        if losses:
+            try:
+                print("V-step backward start", flush=True)
+                tg.sum(losses).backward()
+                print("V-step optimizer step start", flush=True)
+                self.v_optimizer.step()
+                update_status = "updated"
+            except Exception as exc:
+                self.verifier.system_prompt.set_value(prompt_before_update)
+                self.v_optimizer.zero_grad()
+                update_error = self._error_record("V-step backward/optimizer", exc)
+                self._print_skip("V-step backward/optimizer", update_error)
+                update_status = "update_failed_rolled_back"
+        print(f"V-step complete status={update_status}", flush=True)
         return {
-            "generated": generated_records,
-            "loss_examples": [record for _, record in evaluated],
+            "generated": [item["generated_record"] for item in successful],
+            "loss_examples": [item["loss_record"] for item in successful],
+            "attempted_cases": len(cases),
+            "successful_cases": len(successful),
+            "skipped_cases": skipped_cases,
+            "update_status": update_status,
+            "update_error": update_error,
             "gradient_trace": self._trace(mark),
         }
 
@@ -205,6 +264,7 @@ class BatchAdversarialGVTrainer:
                 "verdict": None,
             },
         )
+        assert_complete_trajectory_audit(generated.value, verdict.value)
         return loss_call(
             inputs={
                 "question": question,
@@ -227,32 +287,71 @@ class BatchAdversarialGVTrainer:
         try:
             def build_interaction(case: HardCase):
                 print(f"  G-step case {case.wrong_id}: start", flush=True)
-                question = variable(case.question, "multi-step GSM8K question")
-                ground_truth = variable(case.ground_truth, "ground-truth final answer")
-                generated = self.generator.run(question)
-                verdict = self.verifier.run(question, generated)
-                loss = self._g_loss(question, ground_truth, generated, verdict)
-                print(f"  G-step case {case.wrong_id}: done", flush=True)
-                return loss, {
-                    "wrong_id": case.wrong_id,
-                    "generator_output": generated.value,
-                    "verifier_output": verdict.value,
-                    "loss_output": loss.value,
-                }
+                context: Dict[str, Any] = {}
+                try:
+                    question = variable(case.question, "multi-step GSM8K question")
+                    ground_truth = variable(
+                        case.ground_truth,
+                        "ground-truth final answer",
+                    )
+                    generated = self.generator.run(question)
+                    context["generator_output"] = generated.value
+                    verdict = self.verifier.run(question, generated)
+                    context["verifier_output"] = verdict.value
+                    loss = self._g_loss(question, ground_truth, generated, verdict)
+                    print(f"  G-step case {case.wrong_id}: done", flush=True)
+                    return {
+                        "loss": loss,
+                        "interaction": {
+                            "wrong_id": case.wrong_id,
+                            "generator_output": generated.value,
+                            "verifier_output": verdict.value,
+                            "loss_output": loss.value,
+                        },
+                        "error": None,
+                    }
+                except Exception as exc:
+                    error = self._error_record("G-step case", exc, case, **context)
+                    self._print_skip("G-step", error)
+                    return {"error": error}
 
             with concurrent.futures.ThreadPoolExecutor(max_workers=self.training_workers) as executor:
                 results = list(executor.map(build_interaction, cases))
-            losses = [loss for loss, _ in results]
-            interactions = [record for _, record in results]
-            print("G-step backward start", flush=True)
-            tg.sum(losses).backward()
-            print("G-step optimizer step start", flush=True)
-            self.g_optimizer.step()
-            print("G-step complete", flush=True)
+            successful = [item for item in results if item["error"] is None]
+            skipped_cases = [
+                item["error"] for item in results if item["error"] is not None
+            ]
+            losses = [item["loss"] for item in successful]
+            interactions = [item["interaction"] for item in successful]
+            update_status = "skipped_no_valid_cases"
+            update_error = None
+            prompt_before_update = self.generator.system_prompt.value
+            if losses:
+                try:
+                    print("G-step backward start", flush=True)
+                    tg.sum(losses).backward()
+                    print("G-step optimizer step start", flush=True)
+                    self.g_optimizer.step()
+                    update_status = "updated"
+                except Exception as exc:
+                    self.generator.system_prompt.set_value(prompt_before_update)
+                    self.g_optimizer.zero_grad()
+                    update_error = self._error_record(
+                        "G-step backward/optimizer",
+                        exc,
+                    )
+                    self._print_skip("G-step backward/optimizer", update_error)
+                    update_status = "update_failed_rolled_back"
+            print(f"G-step complete status={update_status}", flush=True)
         finally:
             self.verifier.system_prompt.requires_grad = original_v_requires_grad
         return {
             "interactions": interactions,
+            "attempted_cases": len(cases),
+            "successful_cases": len(interactions),
+            "skipped_cases": skipped_cases,
+            "update_status": update_status,
+            "update_error": update_error,
             "gradient_trace": self._trace(mark),
         }
 
@@ -266,6 +365,12 @@ class BatchAdversarialGVTrainer:
         return {
             "batch_index": batch_index,
             "case_ids": [case.wrong_id for case in cases],
+            "generator_fixed_system_prompt": self.generator.fixed_system_prompt.value,
+            "verifier_fixed_system_prompt": self.verifier.fixed_system_prompt.value,
+            "generator_strategy_prompt_before": g_before,
+            "generator_strategy_prompt_after": g_after,
+            "verifier_strategy_prompt_before": v_before,
+            "verifier_strategy_prompt_after": v_after,
             "generator_prompt_before": g_before,
             "generator_prompt_after": g_after,
             "verifier_prompt_before": v_before,
@@ -275,26 +380,60 @@ class BatchAdversarialGVTrainer:
         }
 
     def evaluate_one(self, case: HardCase) -> Dict[str, Any]:
-        question = variable(case.question, "held-out GSM8K question")
-        generated = self.generator.run(question)
-        verdict_text = self.verifier.run(question, generated).value
-        verdict = parse_verdict(verdict_text)
-        return {
-            "case": asdict(case),
-            "generator_output": generated.value,
-            "verifier_output": verdict_text,
-            "verdict": asdict(verdict),
-            "correct": is_correct(generated.value, case.ground_truth),
-        }
+        context: Dict[str, Any] = {}
+        try:
+            question = variable(case.question, "held-out GSM8K question")
+            generated = self.generator.run(question)
+            context["generator_output"] = generated.value
+            verdict_text = self.verifier.run(question, generated).value
+            context["verifier_output"] = verdict_text
+            verdict = parse_verdict(verdict_text)
+            return {
+                "case": asdict(case),
+                "generator_output": generated.value,
+                "verifier_output": verdict_text,
+                "verdict": asdict(verdict),
+                "correct": is_correct(generated.value, case.ground_truth),
+                "skipped": False,
+                "error": None,
+            }
+        except Exception as exc:
+            error = self._error_record("evaluation case", exc, case, **context)
+            self._print_skip("evaluation", error)
+            return {
+                "case": asdict(case),
+                "generator_output": context.get("generator_output", ""),
+                "verifier_output": context.get("verifier_output", ""),
+                "verdict": asdict(parse_verdict("")),
+                "correct": None,
+                "skipped": True,
+                "error": error,
+            }
 
     def evaluate(self, cases: Sequence[HardCase]) -> Dict[str, Any]:
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=self.evaluation_workers
         ) as executor:
             rows = list(executor.map(self.evaluate_one, cases))
+        evaluated_rows = [row for row in rows if not row["skipped"]]
+        denominator = len(evaluated_rows)
+
+        def rate(predicate) -> float:
+            if denominator == 0:
+                return 0.0
+            return sum(predicate(row) for row in evaluated_rows) / denominator
+
         return {
-            "accuracy": sum(row["correct"] for row in rows) / len(rows),
-            "accept_rate": sum(row["verdict"]["label"] == "ACCEPT" for row in rows)
-            / len(rows),
+            "accuracy": rate(lambda row: bool(row["correct"])),
+            "accept_rate": rate(lambda row: row["verdict"]["label"] == "ACCEPT"),
+            "challenge_rate": rate(
+                lambda row: row["verdict"]["label"] == "CHALLENGE"
+            ),
+            "reject_rate": rate(lambda row: row["verdict"]["label"] == "REJECT"),
+            "invalid_rate": rate(lambda row: row["verdict"]["label"] == "INVALID"),
+            "attempted_count": len(rows),
+            "evaluated_count": denominator,
+            "skipped_count": len(rows) - denominator,
+            "errors": [row["error"] for row in rows if row["error"] is not None],
             "rows": rows,
         }

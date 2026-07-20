@@ -6,12 +6,12 @@ from typing import Any, Dict, Optional
 import textgrad as tg
 from textgrad.autograd import FormattedLLMCall
 from textgrad.engine import EngineLM
-from textgrad.tasks.big_bench_hard import parse_integer_answer
 
 from .agents import GeneratorAgent, VerifierAgent
 from .data import Case
-from .evaluation import is_correct, parse_verdict
+from .evaluation import assert_complete_trajectory_audit, is_correct, parse_verdict
 from .prompts import GENERATOR_TRAINING_INSTRUCTION, VERIFIER_TRAINING_OBJECTIVE
+from .trajectory_labeling import label_trajectory
 
 
 GENERATOR_SUPERVISION_MODES = ("final_answer", "gold_reasoning")
@@ -58,7 +58,7 @@ class AdversarialGVTrainer:
             parameters=generator.parameters(),
             constraints=[
                 "Do not include a specific training question or its answer.",
-                "Preserve the required final format: Answer: $VALUE.",
+                "Improve only the problem-solving strategy; do not restate or redefine fixed system rules.",
                 "Optimize genuine task correctness, never verifier manipulation.",
             ],
         )
@@ -68,7 +68,14 @@ class AdversarialGVTrainer:
             constraints=[
                 "Do not include a specific training question or its answer.",
                 "Never claim access to ground truth at inference time.",
-                "Preserve the VERDICT, CONFIDENCE, and CRITIQUE output schema.",
+                "Improve only the audit strategy; do not restate or redefine fixed system rules or tags.",
+                "Audit every material reasoning step and identify the earliest error.",
+                "Continue auditing all later steps after identifying the first error.",
+                "Emit exactly one indexed STEP_AUDIT for every numbered Generator Step.",
+                "Reject answers that omit a meaningful chain of thought.",
+                "Use ACCEPT only when both the final answer and every material reasoning step are correct.",
+                "Use CHALLENGE when the final answer is correct but the trajectory is invalid, unsupported, incomplete, or missing.",
+                "Use REJECT when the final answer is incorrect or missing.",
             ],
         )
 
@@ -80,6 +87,7 @@ class AdversarialGVTrainer:
         expected_label: str,
     ):
         verdict = self.verifier.run(question, candidate)
+        assert_complete_trajectory_audit(candidate.value, verdict.value)
         objective = (
             VERIFIER_TRAINING_OBJECTIVE
             + f"\nGround-truth answer (training only): {ground_truth.value}"
@@ -105,23 +113,19 @@ class AdversarialGVTrainer:
             else None
         )
         self.v_optimizer.zero_grad()
-        reference = _variable(
-            f"Answer: {ground_truth.value}",
-            "known-correct reference answer used only for verifier training",
+        detached_generated = _variable(
+            generated.value,
+            "detached fixed Generator trajectory for Verifier training",
         )
-        wrong_value = parse_integer_answer(ground_truth.value) + 1
-        negative = _variable(
-            (
-                "I counted each relevant item exactly once and checked the total. "
-                f"The total is {wrong_value}.\nAnswer: {wrong_value}"
-            ),
-            "plausible but numerically incorrect answer used only for verifier training",
+        trajectory_label, labeler_output = label_trajectory(
+            self.backward_engine,
+            question,
+            detached_generated,
+            ground_truth,
         )
-        generated_label = "ACCEPT" if is_correct(generated.value, ground_truth.value) else "REJECT"
+        generated_label = trajectory_label.label
         evaluated = [
-            self._v_loss(question, reference, ground_truth, "ACCEPT"),
-            self._v_loss(question, negative, ground_truth, "REJECT"),
-            self._v_loss(question, generated, ground_truth, generated_label),
+            self._v_loss(question, detached_generated, ground_truth, generated_label),
         ]
         losses = [loss for loss, _ in evaluated]
         tg.sum(losses).backward()
@@ -133,6 +137,8 @@ class AdversarialGVTrainer:
         )
         return {
             "generated_expected_label": generated_label,
+            "label_rationale": trajectory_label.rationale,
+            "labeler_output": labeler_output,
             "examples": [record for _, record in evaluated],
             "gradient_trace": trace,
         }
@@ -151,6 +157,7 @@ class AdversarialGVTrainer:
         self.g_optimizer.zero_grad()
         generated = self.generator.run(question)
         verdict = self.verifier.run(question, generated)
+        assert_complete_trajectory_audit(generated.value, verdict.value)
         format_string = (
             "<QUESTION>{question}</QUESTION>\n"
             "<GROUND_TRUTH training_only='true'>{ground_truth}</GROUND_TRUTH>\n"

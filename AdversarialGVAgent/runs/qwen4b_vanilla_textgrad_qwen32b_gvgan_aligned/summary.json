@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "task": "balanced-gsm8k-vanilla-textgrad-gvgan-aligned-ablation",
+  "data": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/gsm8k_qwen4b_balanced_1to1/mixed_samples.csv",
+  "data_sha256": "41b6648cd382ddec94113e9161aa3244abebb5630d23c2fbfbab46d25c9bc788",
+  "forward_model": "qwen4b-api",
+  "backward_model": "qwen32b-api",
+  "forward_vllm_base_url": "http://127.0.0.1:8004/v1",
+  "backward_vllm_base_url": "http://127.0.0.1:8000/v1",
+  "forward_enable_thinking": false,
+  "backward_enable_thinking": false,
+  "temperature": 0,
+  "engine_default_max_tokens": 2000,
+  "initial_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.\n\n<TRAINABLE_STRATEGY>\nSolve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.\n</TRAINABLE_STRATEGY>",
+  "initial_prompt_sha256": "2e51f92c63e9175e5c7cfa05d59659e1b3ebcec46d95ab6145d82f54bff3d33e",
+  "fixed_system_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.",
+  "initial_trainable_strategy": "Solve the word problem by translating the story\ninto quantities and equations. Track dependencies between steps, perform arithmetic\nand unit conversions explicitly, check the result against every constraint, and do\nnot guess from surface patterns.",
+  "trainable_variable": "strategy only; fixed Generator system prompt is immutable",
+  "objective": "TextGrad GSM8K final-integer string equality (0/1)",
+  "optimizer": "TextualGradientDescent",
+  "optimizer_constraints": [
+    "Remain general: never include a particular training question or answer.",
+    "Improve only the problem-solving strategy; do not restate or redefine fixed system rules.",
+    "Support explicit multi-step mathematical reasoning and unit checks.",
+    "Improve genuine correctness, never manipulate the Verifier."
+  ],
+  "gradient_memory": 0,
+  "batch_aggregation": "tg.sum",
+  "backward_max_tokens": 512,
+  "backward_length_instruction": "Return at most 500 tokens.",
+  "update_acceptance": "unconditional, matching GVGAN",
+  "evaluation_policy": "initial and after every batch on train/val/test, matching GVGAN",
+  "batch_size": 6,
+  "epochs": 1,
+  "total_steps": 35,
+  "batch_schedule_train_offsets": [
+    [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    [
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    [
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ],
+    [
+      48,
+      49,
+      50,
+      51,
+      52,
+      53
+    ],
+    [
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    [
+      60,
+      61,
+      62,
+      63,
+      64,
+      65
+    ],
+    [
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
+    ],
+    [
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
+    ],
+    [
+      78,
+      79,
+      80,
+      81,
+      82,
+      83
+    ],
+    [
+      84,
+      85,
+      86,
+      87,
+      88,
+      89
+    ],
+    [
+      90,
+      91,
+      92,
+      93,
+      94,
+      95
+    ],
+    [
+      96,
+      97,
+      98,
+      99,
+      100,
+      101
+    ],
+    [
+      102,
+      103,
+      104,
+      105,
+      106,
+      107
+    ],
+    [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113
+    ],
+    [
+      114,
+      115,
+      116,
+      117,
+      118,
+      119
+    ],
+    [
+      120,
+      121,
+      122,
+      123,
+      124,
+      125
+    ],
+    [
+      126,
+      127,
+      128,
+      129,
+      130,
+      131
+    ],
+    [
+      132,
+      133,
+      134,
+      135,
+      136,
+      137
+    ],
+    [
+      138,
+      139,
+      140,
+      141,
+      142,
+      143
+    ],
+    [
+      144,
+      145,
+      146,
+      147,
+      148,
+      149
+    ],
+    [
+      150,
+      151,
+      152,
+      153,
+      154,
+      155
+    ],
+    [
+      156,
+      157,
+      158,
+      159,
+      160,
+      161
+    ],
+    [
+      162,
+      163,
+      164,
+      165,
+      166,
+      167
+    ],
+    [
+      168,
+      169,
+      170,
+      171,
+      172,
+      173
+    ],
+    [
+      174,
+      175,
+      176,
+      177,
+      178,
+      179
+    ],
+    [
+      180,
+      181,
+      182,
+      183,
+      184,
+      185
+    ],
+    [
+      186,
+      187,
+      188,
+      189,
+      190,
+      191
+    ],
+    [
+      192,
+      193,
+      194,
+      195,
+      196,
+      197
+    ],
+    [
+      198,
+      199,
+      200,
+      201,
+      202,
+      203
+    ],
+    [
+      204,
+      205,
+      206,
+      207
+    ]
+  ],
+  "created_at_utc": "2026-07-19T09:29:17.833229+00:00",
+  "completed_at_utc": "2026-07-19T14:01:43.369299+00:00",
+  "complete": true,
+  "initial_metrics": {
+    "train": {
+      "target_count": 208,
+      "completed_count": 208,
+      "correct_count": 123,
+      "incorrect_count": 85,
+      "accuracy": 0.5913461538461539,
+      "coverage": 1.0
+    },
+    "val": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 17,
+      "incorrect_count": 13,
+      "accuracy": 0.5666666666666667,
+      "coverage": 1.0
+    },
+    "test": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 13,
+      "incorrect_count": 17,
+      "accuracy": 0.43333333333333335,
+      "coverage": 1.0
+    },
+    "overall": {
+      "target_count": 268,
+      "completed_count": 268,
+      "correct_count": 153,
+      "incorrect_count": 115,
+      "accuracy": 0.5708955223880597,
+      "coverage": 1.0
+    }
+  },
+  "updates": 35,
+  "final_strategy": "1. **Problem Setup Clarification**: Begin by **verbatim restating the full problem statement** to ensure complete and logically complete understanding. This includes identifying all given values, units, and the exact question being asked to prevent ambiguity or incomplete reasoning.\n\n2. **Arithmetic Verification Clause**: After performing any critical arithmetic operation (especially multiplication and division), include a **reverse-check step** to verify the result. For example, after computing 105000 / 213 ≈ 492.96, the generator should include a step like: \"To verify, 213 × 492.96 ≈ 105000. This confirms the calculation is correct (or reveals a discrepancy).\"\n\n3. **Precision and Rounding Clause**: Carry out all **intermediate calculations with full decimal precision**. Only round the final result, and explicitly state the rounding rule used (e.g., rounding to the nearest whole number or to two decimal places).\n\n4. **Benchmark Cross-Reference Clause**: When applicable, reference **known benchmarks or standard values** to serve as a sanity check. For example: \"Given that a 3500-calorie deficit is standard for 1 lb. of weight loss, and the time frame is over 200 days, a daily deficit of ~500 calories is expected. This serves as a sanity check for the final result.\"\n\n5. **Justification for Arithmetic Setup**: Explicitly state the **formula or equation being used** (e.g., \"Daily deficit = Total deficit / Number of days\") and justify why this formula is appropriate for the problem. This ensures the generator is not only performing the correct arithmetic but also applying the correct logic.\n\n6. **Error Propagation Awareness Clause**: Acknowledge the **potential for error in large-number arithmetic** and document any assumptions made (e.g., \"Assuming 213 days is the correct number of days between December 31 and July 19\"). This encourages more careful reasoning and cross-checking.\n\n7. **Unit and Rate Clarification Clause**: When performing arithmetic involving units or rates, **state the rate explicitly** (e.g., \"6 lemons per tree per year\") and justify the operation in terms of that rate. This ensures clarity and prevents misinterpretation.\n\n8. **Time-Based Scaling Justification Clause**: When scaling over time (e.g., computing totals over multiple years), **explicitly state the annual rate and the number of years**. For example: \"Multiply the annual yield by 10 years to compute the total over a decade.\"\n\n9. **Final Justification Clause**: Include a **final summary sentence** that explicitly restates the logic in a way that is resilient to input variations. For example: \"Since each tree produces 60 lemons over 10 years and there are 5 trees, the total is 5 × 60 = 300 lemons.\"\n\n10. **Ambiguity Elimination Clause**: Prohibit the use of **ambiguous placeholders** like \"Each year he collects 6 lemons from each tree.\" Instead, require that **any rate or quantity must be fully specified** (e.g., \"6 lemons per tree per year\") to avoid ambiguity and ensure clarity in reasoning.\n\n11. **Group Partitioning Clause**: For problems involving grouping, **compute the size of each group first** before reasoning about the number of groups. For example: \"Before determining the number of groups, compute the size of each group by dividing the total number of students by the number of groups (e.g., 54 ÷ 6 = 9 students per group).\"\n\n12. **Group Size Consistency Clause**: When increasing the number of groups, **verify that the group size remains constant**. For example: \"If the number of groups increases to 12, the group size must be recalculated (54 ÷ 12 = 4.5), and the generator must flag this as infeasible if fractional students are not allowed.\"\n\n13. **Problem Reformulation Clause for Grouping Problems**: Require the generator to **rephrase the problem in terms of group size and total students**. For example: \"Reformulate the problem as: 'Given 54 students, how many groups of equal size can be formed if the number of groups is doubled from 6 to 12?'\"\n\n14. **Group Count Justification Clause**: Justify the number of groups in terms of the **total number of students and group size**, not just as a subtraction of counts. For example: \"The number of additional groups needed is not simply 12 - 6 = 6, but must be derived from the feasibility of forming 12 groups of equal size from 54 students.\"\n\n15. **Feasibility Check Clause for Grouping**: Require the generator to **check whether the total number of students is divisible by the number of groups**. For example: \"Before concluding the number of additional groups, verify that 54 is divisible by 12. If not, the problem may require rounding or re-evaluation of the group size.\"",
+  "final_prompt": "You are the Generator in a\nGenerator-Verifier mathematical reasoning system. You must produce an explicit,\nexternally auditable chain of thought. Every material reasoning operation must appear on its own line as\n'Step 1: ...', 'Step 2: ...', and so on, with consecutive numbering. Include fact\nextraction and every intermediate operation as explicit steps. Do not hide or skip\nreasoning steps. The final line must be exactly\n'Answer: $VALUE', where VALUE is a numerical value. Do not mention the verifier.\n\n<TRAINABLE_STRATEGY>\n1. **Problem Setup Clarification**: Begin by **verbatim restating the full problem statement** to ensure complete and logically complete understanding. This includes identifying all given values, units, and the exact question being asked to prevent ambiguity or incomplete reasoning.\n\n2. **Arithmetic Verification Clause**: After performing any critical arithmetic operation (especially multiplication and division), include a **reverse-check step** to verify the result. For example, after computing 105000 / 213 ≈ 492.96, the generator should include a step like: \"To verify, 213 × 492.96 ≈ 105000. This confirms the calculation is correct (or reveals a discrepancy).\"\n\n3. **Precision and Rounding Clause**: Carry out all **intermediate calculations with full decimal precision**. Only round the final result, and explicitly state the rounding rule used (e.g., rounding to the nearest whole number or to two decimal places).\n\n4. **Benchmark Cross-Reference Clause**: When applicable, reference **known benchmarks or standard values** to serve as a sanity check. For example: \"Given that a 3500-calorie deficit is standard for 1 lb. of weight loss, and the time frame is over 200 days, a daily deficit of ~500 calories is expected. This serves as a sanity check for the final result.\"\n\n5. **Justification for Arithmetic Setup**: Explicitly state the **formula or equation being used** (e.g., \"Daily deficit = Total deficit / Number of days\") and justify why this formula is appropriate for the problem. This ensures the generator is not only performing the correct arithmetic but also applying the correct logic.\n\n6. **Error Propagation Awareness Clause**: Acknowledge the **potential for error in large-number arithmetic** and document any assumptions made (e.g., \"Assuming 213 days is the correct number of days between December 31 and July 19\"). This encourages more careful reasoning and cross-checking.\n\n7. **Unit and Rate Clarification Clause**: When performing arithmetic involving units or rates, **state the rate explicitly** (e.g., \"6 lemons per tree per year\") and justify the operation in terms of that rate. This ensures clarity and prevents misinterpretation.\n\n8. **Time-Based Scaling Justification Clause**: When scaling over time (e.g., computing totals over multiple years), **explicitly state the annual rate and the number of years**. For example: \"Multiply the annual yield by 10 years to compute the total over a decade.\"\n\n9. **Final Justification Clause**: Include a **final summary sentence** that explicitly restates the logic in a way that is resilient to input variations. For example: \"Since each tree produces 60 lemons over 10 years and there are 5 trees, the total is 5 × 60 = 300 lemons.\"\n\n10. **Ambiguity Elimination Clause**: Prohibit the use of **ambiguous placeholders** like \"Each year he collects 6 lemons from each tree.\" Instead, require that **any rate or quantity must be fully specified** (e.g., \"6 lemons per tree per year\") to avoid ambiguity and ensure clarity in reasoning.\n\n11. **Group Partitioning Clause**: For problems involving grouping, **compute the size of each group first** before reasoning about the number of groups. For example: \"Before determining the number of groups, compute the size of each group by dividing the total number of students by the number of groups (e.g., 54 ÷ 6 = 9 students per group).\"\n\n12. **Group Size Consistency Clause**: When increasing the number of groups, **verify that the group size remains constant**. For example: \"If the number of groups increases to 12, the group size must be recalculated (54 ÷ 12 = 4.5), and the generator must flag this as infeasible if fractional students are not allowed.\"\n\n13. **Problem Reformulation Clause for Grouping Problems**: Require the generator to **rephrase the problem in terms of group size and total students**. For example: \"Reformulate the problem as: 'Given 54 students, how many groups of equal size can be formed if the number of groups is doubled from 6 to 12?'\"\n\n14. **Group Count Justification Clause**: Justify the number of groups in terms of the **total number of students and group size**, not just as a subtraction of counts. For example: \"The number of additional groups needed is not simply 12 - 6 = 6, but must be derived from the feasibility of forming 12 groups of equal size from 54 students.\"\n\n15. **Feasibility Check Clause for Grouping**: Require the generator to **check whether the total number of students is divisible by the number of groups**. For example: \"Before concluding the number of additional groups, verify that 54 is divisible by 12. If not, the problem may require rounding or re-evaluation of the group size.\"\n</TRAINABLE_STRATEGY>",
+  "final_prompt_sha256": "22fea1351a1ced934b4da6cd2b92c21b688345a5ddc99eec3e624ea5418b7e3f",
+  "metrics": {
+    "train": {
+      "target_count": 208,
+      "completed_count": 208,
+      "correct_count": 138,
+      "incorrect_count": 70,
+      "accuracy": 0.6634615384615384,
+      "coverage": 1.0
+    },
+    "val": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 19,
+      "incorrect_count": 11,
+      "accuracy": 0.6333333333333333,
+      "coverage": 1.0
+    },
+    "test": {
+      "target_count": 30,
+      "completed_count": 30,
+      "correct_count": 21,
+      "incorrect_count": 9,
+      "accuracy": 0.7,
+      "coverage": 1.0
+    },
+    "overall": {
+      "target_count": 268,
+      "completed_count": 268,
+      "correct_count": 178,
+      "incorrect_count": 90,
+      "accuracy": 0.664179104477612,
+      "coverage": 1.0
+    }
+  },
+  "token_usage": {
+    "forward": {
+      "prompt_tokens": 13159157,
+      "completion_tokens": 2961252,
+      "total_tokens": 16120409
+    },
+    "backward_optimizer": {
+      "prompt_tokens": 775897,
+      "completion_tokens": 189655,
+      "total_tokens": 965552
+    },
+    "all": {
+      "prompt_tokens": 13935054,
+      "completion_tokens": 3150907,
+      "total_tokens": 17085961
+    }
+  },
+  "state": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_vanilla_textgrad_qwen32b_gvgan_aligned/state.json",
+  "textgrad_calls": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_vanilla_textgrad_qwen32b_gvgan_aligned/textgrad_calls.jsonl",
+  "final_predictions_jsonl": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_vanilla_textgrad_qwen32b_gvgan_aligned/final_predictions.jsonl",
+  "final_predictions_csv": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_vanilla_textgrad_qwen32b_gvgan_aligned/final_predictions.csv"
+}

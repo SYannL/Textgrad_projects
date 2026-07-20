@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "task": "balanced-gsm8k-original-textgrad-protocol",
+  "data": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/gsm8k_qwen4b_balanced_1to1/mixed_samples.csv",
+  "data_sha256": "41b6648cd382ddec94113e9161aa3244abebb5630d23c2fbfbab46d25c9bc788",
+  "forward_model": "qwen4b-api",
+  "backward_model": "qwen32b-api",
+  "forward_vllm_base_url": "http://127.0.0.1:8004/v1",
+  "backward_vllm_base_url": "http://127.0.0.1:8000/v1",
+  "forward_enable_thinking": false,
+  "backward_enable_thinking": false,
+  "temperature": 0,
+  "engine_default_max_tokens": 2000,
+  "starting_system_prompt": "You will answer a mathemetical reasoning question. Think step by step. The last line of your response should be of the following format: 'Answer: $VALUE' where VALUE is a numerical value.",
+  "trainable_variable": "entire system prompt",
+  "objective": "TextGrad GSM8K final-integer string equality (0/1)",
+  "optimizer": "TextualGradientDescent",
+  "optimizer_constraints": [],
+  "gradient_memory": 0,
+  "momentum": 0,
+  "backward_max_tokens_override": null,
+  "backward_length_instruction": null,
+  "batch_aggregation": "tg.sum",
+  "validation_gate": "reject only when candidate accuracy is lower; accept ties",
+  "evaluation_policy": "initial val/test and val/test after every update",
+  "batch_size": 3,
+  "max_epochs": 3,
+  "steps_per_epoch": 4,
+  "total_steps": 12,
+  "seed": 42,
+  "evaluation_workers": 32,
+  "batch_schedule_train_offsets": [
+    [
+      161,
+      15,
+      73
+    ],
+    [
+      96,
+      166,
+      9
+    ],
+    [
+      100,
+      135,
+      18
+    ],
+    [
+      148,
+      171,
+      30
+    ],
+    [
+      7,
+      172,
+      1
+    ],
+    [
+      36,
+      42,
+      20
+    ],
+    [
+      202,
+      78,
+      113
+    ],
+    [
+      93,
+      52,
+      127
+    ],
+    [
+      98,
+      122,
+      45
+    ],
+    [
+      27,
+      99,
+      150
+    ],
+    [
+      169,
+      130,
+      54
+    ],
+    [
+      19,
+      76,
+      106
+    ]
+  ],
+  "created_at_utc": "2026-07-19T14:02:14.586709+00:00",
+  "completed_at_utc": "2026-07-19T15:10:34.641939+00:00",
+  "complete": true,
+  "initial_test_accuracy": 0.7,
+  "initial_val_accuracy": 0.7,
+  "final_test_accuracy": 0.6333333333333333,
+  "final_val_accuracy": 0.7333333333333333,
+  "accepted_updates": 1,
+  "rejected_updates": 11,
+  "tie_updates": 0,
+  "final_prompt": "You will answer a mathematical reasoning question. First, restate the problem in your own words and explicitly label the units and meaning of each number. Think step by step, and do not perform any calculation until you have fully unpacked the problem. After solving the problem, include a verification step where you recheck your logic and ensure that your final answer is consistent with the problem's wording and constraints. Be careful not to confuse the number of hot dogs with the number of guests. Always label your quantities with their units and verify that your final answer is in the correct unit. Your final line should be of the following format: 'Answer: $VALUE', where VALUE is a numerical value. Before this, explicitly state what the value represents in the context of the problem (e.g., 'This means 13 guests did not get a second hot dog').",
+  "final_prompt_sha256": "dcf5c0dc11fb844633185115f04b7ccf5a74863a078c0319090b2df4567fa455",
+  "token_usage": {
+    "forward": {
+      "prompt_tokens": 278885,
+      "completion_tokens": 572217,
+      "total_tokens": 851102
+    },
+    "backward_optimizer": {
+      "prompt_tokens": 155389,
+      "completion_tokens": 64596,
+      "total_tokens": 219985
+    },
+    "all": {
+      "prompt_tokens": 434274,
+      "completion_tokens": 636813,
+      "total_tokens": 1071087
+    }
+  },
+  "state": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_original_textgrad_qwen32b/state.json",
+  "textgrad_calls": "/bigdata/siyan/projects/Textgrad_projects/AdversarialGVAgent/runs/qwen4b_original_textgrad_qwen32b/textgrad_calls.jsonl"
+}
